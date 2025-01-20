@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { routes } from './shared/constants/routes'
 
 export function middleware(request: NextRequest) {
-  const publicPaths = ['/login', '/register']
+  const publicPaths = [routes.login, routes.register]
   
   if (!publicPaths.includes(request.nextUrl.pathname)) {
     if (typeof window !== 'undefined') {
