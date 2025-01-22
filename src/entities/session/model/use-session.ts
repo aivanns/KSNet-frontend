@@ -11,7 +11,7 @@ export const useSession = () => {
       localStorage.removeItem('token')
       window.location.reload()
       toast.success('Вы успешно вышли из аккаунта')
-    } catch (error) {
+    } catch {
       toast.error('Ошибка при выходе из аккаунта')
     }
   }
@@ -22,7 +22,7 @@ export const useSession = () => {
       localStorage.setItem('token', accessToken)
       await fetchUser()
       return true
-    } catch (error) {
+    } catch {
       return false
     }
   }

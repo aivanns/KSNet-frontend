@@ -10,12 +10,19 @@ export interface User {
   createdAt: string
   updatedAt: string
   role: Role
-  userMedias: any[]
+  userMedias: UserMedia[]
 }
 
 export interface Role {
   id: string
   name: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface UserMedia {
+  id: string
+  url: string
   createdAt: string
   updatedAt: string
 }

@@ -18,7 +18,7 @@ export const useUserStore = create<UserState>((set) => ({
       set({ isLoading: true, error: null })
       const user = await userApi.getMe()
       set({ user, isLoading: false })
-    } catch (error) {
+    } catch {
       set({ 
         user: null,
         error: 'Ошибка при получении данных пользователя', 

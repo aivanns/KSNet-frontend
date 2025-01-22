@@ -30,7 +30,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     }
 
     initSession()
-  }, [])
+  }, [fetchUser])
 
   const logout = async () => {
     try {
@@ -38,7 +38,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       localStorage.removeItem('token')
       window.location.reload()
       toast.success('Вы успешно вышли из аккаунта')
-    } catch (error) {
+    } catch {
       toast.error('Ошибка при выходе из аккаунта')
     }
   }
@@ -49,7 +49,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('token', accessToken)
       await fetchUser()
       return true
-    } catch (error) {
+    } catch {
       return false
     }
   }
