@@ -12,7 +12,7 @@ export const useSession = () => {
     try {
       await authApi.logout()
       localStorage.removeItem('token')
-      router.push(routes.login)
+      window.location.reload()
       toast.success('Вы успешно вышли из аккаунта')
     } catch (error) {
       toast.error('Ошибка при выходе из аккаунта')

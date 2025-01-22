@@ -5,6 +5,7 @@ import { useRegister } from '../model/use-auth'
 import { DynamicFormFields, type FormField } from '@/shared/ui/dynamic-form'
 import Link from 'next/link'
 import { registerSchema, type RegisterFormData } from '../model/auth'
+import { BackHeader } from '@/shared/ui/back-header'
 
 export function RegisterForm() {
   const { t } = useTranslation()
@@ -44,6 +45,7 @@ export function RegisterForm() {
           isLoading: isPending
         }}
       >
+        <BackHeader title={t('back.to.home')} size="sm" className="mb-4" />
         <div className="text-center">
           <h1 className="text-2xl font-bold text-neutral-900">
             {t('auth.register')}

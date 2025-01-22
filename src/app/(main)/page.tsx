@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <div className="flex h-full my-5">
-        <div className="w-1/5 text-center p-4">
+        <div className="w-1/5 text-center px-5">
             <Sidebar />
         </div>
         <div className="w-3/5 text-center">

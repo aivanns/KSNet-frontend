@@ -5,6 +5,7 @@ import { useLogin } from '../model/use-auth'
 import { DynamicFormFields, type FormField } from '@/shared/ui/dynamic-form'
 import Link from 'next/link'
 import { loginSchema, type LoginFormData } from '../model/auth'
+import { BackHeader } from '@/shared/ui/back-header'
 
 export function LoginForm() {
   const { t } = useTranslation()
@@ -44,6 +45,7 @@ export function LoginForm() {
           isLoading: isPending
         }}
       >
+        <BackHeader title={t('back.to.home')} size="sm" className="mb-4" />
         <div className="text-center">
           <h1 className="text-2xl font-bold text-neutral-900">
             {t('auth.login')}

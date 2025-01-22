@@ -1,19 +1,25 @@
-import { LogOut, Settings } from "lucide-react"
+import { LogOut, Settings, UserCircle } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { links } from "../model/navigation"
 import { Button } from "@heroui/react"
+import { useSession } from "@/entities/session/model/use-session"
+import { LoginButton } from "@/shared/ui/login-button"
+import { LogoutButton } from "@/shared/ui/logout-button"
 
 const Navigation = () => {
     const pathname = usePathname()
+    const { isAuthenticated } = useSession()
 
     return (
-        <div className="flex flex-col h-full w-full mt-10">
+        <div className="flex flex-col h-full w-full mt-4">
             <nav className="flex flex-col">
                 {links.map((link) => {
+                    if (link.onlyAuthorized && !isAuthenticated) return null
+
                     const Icon = link.icon
                     const isActive = pathname === link.href
-                    
+    
                     return (
                         <Link 
                             key={link.href}
@@ -29,12 +35,17 @@ const Navigation = () => {
                 })}
             </nav>
             <div className="flex justify-between items-center mt-auto mb-5">
-                <Button color="default" isIconOnly className="w-auto mx-5">
-                    <Settings size={20} />
-                </Button>
-                <Button color="danger" isIconOnly className="w-auto mx-5">
-                    <LogOut size={20} />
-                </Button>
+                {isAuthenticated ? (
+                    <>
+                        <Button color="default" isIconOnly className="w-auto mx-5">
+                            <Settings size={20} />
+                        </Button>
+                        <LogoutButton className="w-auto mx-5" />
+                    </>
+                ) : (<>
+                    <div></div>
+                    <LoginButton className="w-auto mx-5" />
+                </>)}
             </div>
         </div>
     )

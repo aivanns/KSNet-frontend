@@ -1,15 +1,21 @@
 export interface User {
   id: string
   email: string
+  roleId: string
+  firstName: string
+  lastName: string
+  groupId: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  role: Role
+  userMedias: any[]
 }
 
-export interface User {
-    id: string
-    email: string
-    isActive: boolean
-    role: {
-      id: string
-      name: string
-    }
-    roleId: string
+export interface Role {
+  id: string
+  name: string
+  createdAt: string
+  updatedAt: string
 }
+
