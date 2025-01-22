@@ -35,12 +35,12 @@ const FilteredSearch = () => {
 
     const clearTags = () => setSelectedTags([])
 
-    const filteredTags = tags?.data.data.filter((tag: Tag) => 
+    const allTags = tags?.data.data || []
+    const selectedTagObjects = allTags.filter((tag: Tag) => selectedTags.includes(tag.id))
+    const unselectedTagObjects = allTags.filter((tag: Tag) => 
+        !selectedTags.includes(tag.id) && 
         tag.name.toLowerCase().includes(tagSearch.toLowerCase())
     )
-
-    const selectedTagObjects = filteredTags?.filter((tag: Tag) => selectedTags.includes(tag.id)) || []
-    const unselectedTagObjects = filteredTags?.filter((tag: Tag) => !selectedTags.includes(tag.id)) || []
 
     return (
         <Card className="h-[calc(100vh-2.5rem)] sticky top-5 p-4 flex flex-col gap-4">
