@@ -3,6 +3,7 @@
 import Feed from "@/widgets/feed/ui/feed"
 import Sidebar from "@/widgets/sidebar/ui/sidebar"
 import PageLayout from "@/shared/ui/page-layout"
+import FilteredSearch from "@/widgets/filtered-search/filtered-search"
 
 export default function Home() {
 
@@ -10,7 +11,7 @@ export default function Home() {
     <PageLayout
     leftSection={<Sidebar />}
     mainSection={<Feed />}
-    rightSection={<p className="text-2xl font-bold text-black">section 3</p>}
+    rightSection={<FilteredSearch />}
     />
   )
 }

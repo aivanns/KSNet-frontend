@@ -5,7 +5,7 @@ import { Button, Card, Tabs, Tab } from "@heroui/react"
 import { Grid, List, Settings } from "lucide-react"
 import { useState } from "react"
 import Post from "@/entities/post/ui/post"
-import TagBadge from "@/shared/ui/tag-badge"
+import TagBadge from "@/entities/tag/ui/tag-badge"
 
 const UserProfile = () => {
     const [view, setView] = useState<"grid" | "list">("grid")
@@ -63,7 +63,7 @@ const UserProfile = () => {
                         date="2 часа назад"
                         text="Красивое описание поста"
                         image="https://picsum.photos/800/600"
-                        tags={["Python", "JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS", "HTML", "CSS", "Test", "absolutely normal badge", "developer post", "fuck backend"]}
+                        tags={[{id: "1", name: "Python"}, {id: "2", name: "JavaScript"}, {id: "3", name: "TypeScript"}, {id: "4", name: "React"}, {id: "5", name: "Next.js"}, {id: "6", name: "Tailwind CSS"}, {id: "7", name: "HTML"}, {id: "8", name: "CSS"}, {id: "9", name: "Test"}, {id: "10", name: "absolutely normal badge"}, {id: "11", name: "developer post"}, {id: "12", name: "fuck backend"}]}
                         url="https://github.com/aivanns"
                     />
                 ))}

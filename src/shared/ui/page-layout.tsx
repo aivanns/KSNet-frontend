@@ -15,7 +15,7 @@ const PageLayout = ({ leftSection, mainSection, rightSection }: PageLayoutProps)
             <div className="w-3/5 text-center">
                 {mainSection}
             </div>
-            <div className="w-1/5 text-center p-4">
+            <div className="w-1/5 text-center px-5">
                 {rightSection}
             </div>
         </div>

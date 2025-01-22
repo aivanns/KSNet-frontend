@@ -31,7 +31,7 @@ const Post = ({text, author, date, tags, url, image, isFull = false}: PostCompon
     <CardBody className="flex flex-col gap-6">
         <p className="text-sm font-medium text-black">{text}</p>
         {image && (
-            <div className="aspect-[4/3] w-full relative">
+            <div className="w-full relative">
                 <Image 
                     src={image} 
                     alt="post image" 

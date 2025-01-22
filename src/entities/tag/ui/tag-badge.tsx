@@ -28,9 +28,9 @@ const getColorFromHash = (tag: string) => {
     return colors[Math.abs(hash) % colors.length]
 }
 
-const TagBadge = ({ tag }: { tag: string }) => {
+const TagBadge = ({ tag, selected }: { tag: string, selected?: boolean }) => {
     const colorClass = getColorFromHash(tag)
-    return <div className={`${colorClass} px-2 py-1 rounded-md text-sm`}>{tag}</div>
+    return <div className={`${colorClass} px-2 py-1 rounded-md text-sm ${selected ? 'bg-blue-500 text-white' : ''}`}>{tag}</div>
 }
 
 export default TagBadge

@@ -4,7 +4,7 @@ export interface Pagination {
 }
 
 export interface Filters {
-    [key: string]: string | number | boolean | undefined
+    [key: string]: string | number | boolean | undefined | string[]
 }
 
 export type SortDirection = 'asc' | 'desc'

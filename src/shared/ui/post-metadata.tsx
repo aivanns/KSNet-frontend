@@ -2,11 +2,12 @@
 
 import { Link } from "@heroui/react"
 import { ExternalLink } from "lucide-react"
-import TagBadge from "./tag-badge"
+import TagBadge from "@/entities/tag/ui/tag-badge"
+import { Tag } from "@/entities/tag/model/tag"
 
 interface PostMetadataProps {
     url?: string
-    tags?: string[]
+    tags?: Tag[]
 }
 
 const PostMetadata = ({ url, tags }: PostMetadataProps) => {
@@ -28,7 +29,7 @@ const PostMetadata = ({ url, tags }: PostMetadataProps) => {
             {tags && tags.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                     {tags.map((tag) => (
-                        <TagBadge key={tag} tag={tag} />
+                        <TagBadge key={tag.id} tag={tag.name} />
                     ))}
                 </div>
             )}

@@ -5,7 +5,7 @@ export interface PostComponentProps {
     author: string
     date: string
     image?: string
-    tags?: string[]
+    tags?: Tag[]
     url?: string
     isFull?: boolean
 }
@@ -20,18 +20,46 @@ export interface Post {
     content: string
     createdAt: string
     updatedAt: string
-    postTags: any[]
+    postTags: PostTag[]
+    postMedias: PostMedia[]
+    owner: Owner
     isLiked: boolean
     likes: number
   }
   
+  export interface PostTag {
+    tag: Tag
+  }
+  
+  export interface Tag {
+    name: string
+    id: string
+  }
+  
+  export interface PostMedia {
+    media: Media
+  }
+  
+  export interface Media {
+    url: string
+    id: string
+  }
+  
+  export interface Owner {
+    id: string
+    firstName: string
+    userMedias: Media[]
+    lastName: string
+  }
+  
 
-interface PostFilters extends Filters {
+export interface PostFilters extends Filters {
     ownerId?: string
     query?: string
+    tags?: string[]
 }
 
-interface PostSort {
+export interface PostSort {
     createdAt?: SortDirection
 }
 
