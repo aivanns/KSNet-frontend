@@ -1,3 +1,5 @@
+'use client'
+
 import { routes } from "@/shared/constants/routes"
 import { Home, Search, Bell, User } from "lucide-react"
 

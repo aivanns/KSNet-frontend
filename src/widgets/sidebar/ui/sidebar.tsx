@@ -1,3 +1,5 @@
+'use client'
+
 import UserCard from "@/entities/user/ui/user-card";
 import Navigation from "@/features/navigation/ui/navigation";
 import { Card } from "@heroui/react";

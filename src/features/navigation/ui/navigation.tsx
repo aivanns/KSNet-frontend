@@ -1,4 +1,6 @@
-import { LogOut, Settings, UserCircle } from "lucide-react"
+'use client'
+
+import { Settings } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { links } from "../model/navigation"
@@ -9,16 +11,24 @@ import { LogoutButton } from "@/shared/ui/logout-button"
 
 const Navigation = () => {
     const pathname = usePathname()
-    const { isAuthenticated } = useSession()
+    const { isAuthenticated, user } = useSession()
+
+    const isLinkActive = (href: string) => {
+        if (href === '/') {
+            return pathname === '/'
+        }
+        return pathname.startsWith(href)
+    }
 
     return (
         <div className="flex flex-col h-full w-full mt-4">
             <nav className="flex flex-col">
                 {links.map((link) => {
                     if (link.onlyAuthorized && !isAuthenticated) return null
+                    if (link.href === '/profile') {link.href = `/profile/${user?.id}`}
 
                     const Icon = link.icon
-                    const isActive = pathname === link.href
+                    const isActive = isLinkActive(link.href)
     
                     return (
                         <Link 

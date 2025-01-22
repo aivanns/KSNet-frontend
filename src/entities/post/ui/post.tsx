@@ -1,11 +1,12 @@
 "use client"
 
-import { Avatar, Card, CardHeader, CardBody, CardFooter, Button, Image } from "@heroui/react"
+import { Avatar, Card, CardHeader, CardBody, CardFooter, Button, Image, Snippet } from "@heroui/react"
 import { EllipsisVertical, Heart, MessageCircle } from "lucide-react"
 import { PostComponentProps } from "../model/post"
 import { useState } from "react"
+import PostMetadata from "@/shared/ui/post-metadata"
 
-const Post = ({text, author, date, image}: PostComponentProps) => {
+const Post = ({text, author, date, tags, url, image, isFull = false}: PostComponentProps) => {
     const [isLiked, setIsLiked] = useState(false)
     const [likes, setLikes] = useState(0)
 
@@ -14,7 +15,7 @@ const Post = ({text, author, date, image}: PostComponentProps) => {
         setLikes(isLiked ? likes - 1 : likes + 1)
     }
 
-  return <Card className="w-full p-2">
+  return <Card className={`${isFull ? "w-full" : "w-2/3"} p-2`}>
     <CardHeader className="justify-between">
         <div className="flex items-center gap-2">
             <Avatar src={'@default_avatar.png'} />
@@ -41,18 +42,20 @@ const Post = ({text, author, date, image}: PostComponentProps) => {
         )}
     </CardBody>
     <CardFooter>
-        <div className="flex gap-4">
-            <div className="flex gap-1">
-                <Button variant="light" isIconOnly size="sm" onPress={handleLike}>
-                    <Heart color={isLiked ? "red" : "black"} fill={isLiked ? "red" : "transparent"} />
+        <div className="flex flex-col justify-start items-start">
+        <PostMetadata url={url} tags={tags} />
+            <div className="flex gap-4 mt-4 px-2">
+                <div className="flex gap-1">
+                    <Button variant="light" isIconOnly size="sm" onPress={handleLike}>
+                        <Heart color={isLiked ? "red" : "black"} fill={isLiked ? "red" : "transparent"} />
+                    </Button>
+                <p className="text-xl font-medium text-black flex items-center">{likes}</p>
+                </div>
+                <Button variant="light" isIconOnly size="sm">
+                    <MessageCircle />
                 </Button>
-            <p className="text-xl font-medium text-black flex items-center">{likes}</p>
             </div>
-            <Button variant="light" isIconOnly size="sm">
-                <MessageCircle />
-            </Button>
         </div>
-
     </CardFooter>
   </Card>
 }

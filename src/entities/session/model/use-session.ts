@@ -1,11 +1,8 @@
-import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { useUserStore } from '@/entities/user/model/store'
 import authApi from '@/features/auth/api/auth'
-import { routes } from '@/shared/constants/routes'
 
 export const useSession = () => {
-  const router = useRouter()
   const { user, fetchUser } = useUserStore()
 
   const logout = async () => {
