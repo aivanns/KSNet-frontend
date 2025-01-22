@@ -25,7 +25,7 @@ export function formatPostDate(date: string | Date) {
     const weeks = Math.floor(days / 7)
     
     if (seconds < 60) {
-        return `${seconds} секунд назад`
+        return `${seconds} ${formatSeconds(seconds)} назад`
     }
     
     if (minutes < 60) {
@@ -81,4 +81,12 @@ function formatWeeks(weeks: number): string {
     if (lastDigit === 1) return 'неделю'
     if (lastDigit >= 2 && lastDigit <= 4) return 'недели'
     return 'недель'
+}
+
+function formatSeconds(seconds: number): string {
+    if (seconds >= 11 && seconds <= 14) return 'секунд'
+    const lastDigit = seconds % 10
+    if (lastDigit === 1) return 'секунду'
+    if (lastDigit >= 2 && lastDigit <= 4) return 'секунды'
+    return 'секунд'
 }
