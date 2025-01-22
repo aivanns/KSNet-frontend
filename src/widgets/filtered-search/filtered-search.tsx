@@ -1,7 +1,5 @@
 'use client'
 
-import { usePost } from "@/entities/post/api/post"
-import { PostFilters, PostSort } from "@/entities/post/model/post"
 import { usePostStore } from "@/entities/post/model/store"
 import { useTag } from "@/entities/tag/api/tag"
 import { Tag } from "@/entities/tag/model/tag"
