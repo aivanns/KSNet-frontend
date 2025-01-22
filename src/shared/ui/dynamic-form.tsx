@@ -1,3 +1,5 @@
+'use client'
+
 import { Path, useForm } from 'react-hook-form'
 import { Input } from '@heroui/react'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
