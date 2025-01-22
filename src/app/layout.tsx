@@ -24,7 +24,7 @@ export default function RootLayout({
     if (token) {
       fetchUser();
     }
-  }, []);
+  }, [fetchUser]);
 
   return (
     <html lang="en">

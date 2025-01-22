@@ -1,6 +1,6 @@
 "use client"
 
-import { Avatar, Card, CardHeader, CardBody, CardFooter, Button, Image, Snippet } from "@heroui/react"
+import { Avatar, Card, CardHeader, CardBody, CardFooter, Button, Image } from "@heroui/react"
 import { EllipsisVertical, Heart, MessageCircle } from "lucide-react"
 import { PostComponentProps } from "../model/post"
 import { useState } from "react"

@@ -1,4 +1,4 @@
-import { Filters, QueryPayload, SortDirection, SortFields } from "@/shared/types/query"
+import { Filters, QueryPayload, SortDirection } from "@/shared/types/query"
 
 export interface Tag {
     id: string

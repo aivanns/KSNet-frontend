@@ -2,7 +2,7 @@
 
 import { usePost } from "@/entities/post/api/post";
 import Post from "@/entities/post/ui/post";
-import { Input, Spinner } from "@heroui/react";
+import { Spinner } from "@heroui/react";
 import { Post as PostType} from "@/entities/post/model/post";
 import { formatPostDate } from "@/shared/lib/utils";
 import { usePostStore } from "@/entities/post/model/store";

@@ -1,6 +1,11 @@
 import axios from 'axios'
 import authApi from '@/features/auth/api/auth'
 
+interface QueueItem {
+  resolve: (value?: unknown) => void
+  reject: (reason?: unknown) => void
+}
+
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
@@ -9,9 +14,9 @@ export const api = axios.create({
 })
 
 let isRefreshing = false
-let failedQueue: any[] = []
+let failedQueue: QueueItem[] = []
 
-const processQueue = (error: any = null) => {
+const processQueue = (error: Error | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error)
@@ -56,7 +61,7 @@ api.interceptors.response.use(
         
         return api(originalRequest)
       } catch (refreshError) {
-        processQueue(refreshError)
+        processQueue(refreshError as Error)
         localStorage.removeItem('token')
         window.location.href = '/login'
         return Promise.reject(refreshError)
