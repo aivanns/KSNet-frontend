@@ -1,9 +1,11 @@
 'use client'
 
+import { usePost } from "@/entities/post/api/post"
+import { PostFilters, PostSort } from "@/entities/post/model/post"
 import { usePostStore } from "@/entities/post/model/store"
 import { useTag } from "@/entities/tag/api/tag"
 import { Tag } from "@/entities/tag/model/tag"
-import { Button, Input, Card } from "@heroui/react"
+import { Button, Input, Card, Spinner } from "@heroui/react"
 import { Search, X } from "lucide-react"
 import { useState } from "react"
 import TagBadge from "@/entities/tag/ui/tag-badge"
@@ -12,7 +14,7 @@ const FilteredSearch = () => {
     const { selectedTags, setSelectedTags } = usePostStore()
     const [tagSearch, setTagSearch] = useState("")
 
-    const { data: tags } = useTag.useGetTags({
+    const { data: tags, isLoading } = useTag.useGetTags({
         pagination: {
             page: 1,
             count: 100
@@ -37,6 +39,9 @@ const FilteredSearch = () => {
         tag.name.toLowerCase().includes(tagSearch.toLowerCase())
     )
 
+    const selectedTagObjects = filteredTags?.filter((tag: Tag) => selectedTags.includes(tag.id)) || []
+    const unselectedTagObjects = filteredTags?.filter((tag: Tag) => !selectedTags.includes(tag.id)) || []
+
     return (
         <Card className="h-[calc(100vh-2.5rem)] sticky top-5 p-4 flex flex-col gap-4">
             <div className="flex gap-2 items-center">
@@ -58,18 +63,38 @@ const FilteredSearch = () => {
                     </Button>
                 )}
             </div>
+
+            {selectedTagObjects.length > 0 && (
+                <div className="border-b pb-4">
+                    <p className="text-sm text-default-500 mb-2">Выбранные теги:</p>
+                    <div className="flex flex-wrap gap-2">
+                        {selectedTagObjects.map((tag: Tag) => (
+                            <div key={tag.id} onClick={() => handleTagSelect(tag.id)} className="cursor-pointer">
+                                <TagBadge 
+                                    tag={tag.name}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
             
             <div className="flex-1 overflow-y-auto">
-                <div className="flex flex-wrap gap-2">
-                    {filteredTags?.map((tag: Tag) => (
-                        <div key={tag.id} onClick={() => handleTagSelect(tag.id)} className="cursor-pointer">
-                            <TagBadge 
-                                tag={tag.name}
-                                selected={selectedTags.includes(tag.id)}
-                            />
-                        </div>
-                    ))}
-                </div>
+                {isLoading ? (
+                    <div className="flex justify-center items-center h-full">
+                        <Spinner size="lg" />
+                    </div>
+                ) : (
+                    <div className="flex flex-wrap gap-2">
+                        {unselectedTagObjects.map((tag: Tag) => (
+                            <div key={tag.id} onClick={() => handleTagSelect(tag.id)} className="cursor-pointer">
+                                <TagBadge 
+                                    tag={tag.name}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </Card>
     )

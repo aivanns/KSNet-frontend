@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 
 const tagApi = {
     getTags: async (query: TagQueryPayload) => {
-        const response = api.post('/tag/search', { query })
+        const response = api.post('/tag/search', query)
         return response
     }
 }

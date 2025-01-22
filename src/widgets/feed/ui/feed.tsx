@@ -2,7 +2,7 @@
 
 import { usePost } from "@/entities/post/api/post";
 import Post from "@/entities/post/ui/post";
-import { Input } from "@heroui/react";
+import { Input, Spinner } from "@heroui/react";
 import { Post as PostType} from "@/entities/post/model/post";
 import { formatPostDate } from "@/shared/lib/utils";
 import { usePostStore } from "@/entities/post/model/store";
@@ -23,7 +23,9 @@ const Feed = () => {
         sort
     })
 
-    if (isLoading) return <div>Загрузка...</div>
+    if (isLoading) return <div className="flex justify-center items-center h-full">
+        <Spinner size="lg" />
+    </div>
     if (error) return <div>Ошибка при загрузке постов</div>
 
     return (
@@ -32,7 +34,7 @@ const Feed = () => {
                 <Input placeholder="Поиск" className="w-2/3" />
             </div>
             <div className="flex flex-col items-center justify-center gap-10">
-                {data?.data.map((post: PostType, index: number) => (
+                {data?.data.map((post: PostType) => (
                     <Post author={post.ownerId} date={formatPostDate(post.createdAt)} tags={post.postTags.map((tag) => tag.tag)} url={post.url} image={post.postMedias[0].media.url} text={post.description} key={post.id} />
                 ))}
             </div>

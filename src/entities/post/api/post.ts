@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 
 export const postApi = {
     getPosts: async (query: QueryPayload) => {
-        const response = await api.post('/post/search', {query})
+        const response = await api.post('/post/search', query)
         return response.data
     }
 }
