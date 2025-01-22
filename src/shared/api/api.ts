@@ -1,5 +1,6 @@
 import axios from 'axios'
 import authApi from '@/features/auth/api/auth'
+import https from 'https'
 
 interface QueueItem {
   resolve: (value?: unknown) => void
@@ -11,7 +12,7 @@ export const api = axios.create({
   headers: {
     'Content-Type': 'application/json'
   },
-  httpsAgent: new (require('https').Agent)({
+  httpsAgent: new https.Agent({
     rejectUnauthorized: false
   })
 })
