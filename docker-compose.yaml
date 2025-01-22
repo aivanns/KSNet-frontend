@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     command: >
-      sh -c "npm run dev"
+      sh -c "npm run start"
     ports:
       - 443:443
     volumes:
