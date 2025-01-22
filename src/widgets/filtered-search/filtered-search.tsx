@@ -9,12 +9,13 @@ import { Button, Input, Card, Spinner } from "@heroui/react"
 import { Search, X } from "lucide-react"
 import { useState } from "react"
 import TagBadge from "@/entities/tag/ui/tag-badge"
+import ErrorCard from "@/shared/ui/error-card"
 
 const FilteredSearch = () => {
     const { selectedTags, setSelectedTags } = usePostStore()
     const [tagSearch, setTagSearch] = useState("")
 
-    const { data: tags, isLoading } = useTag.useGetTags({
+    const { data: tags, isLoading, error } = useTag.useGetTags({
         pagination: {
             page: 1,
             count: 100
@@ -84,6 +85,8 @@ const FilteredSearch = () => {
                     <div className="flex justify-center items-center h-full">
                         <Spinner size="lg" />
                     </div>
+                ) : error ? (
+                    <ErrorCard message="Ошибка загрузки тегов" className="h-full rounded-none"/>
                 ) : (
                     <div className="flex flex-wrap gap-2">
                         {unselectedTagObjects.map((tag: Tag) => (

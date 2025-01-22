@@ -1,6 +1,6 @@
 export interface Pagination {
-    count: number
-    page: number
+    count?: number
+    page?: number
 }
 
 export interface Filters {

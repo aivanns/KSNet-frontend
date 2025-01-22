@@ -1,20 +1,48 @@
 'use client'
 
 import UserCard from "@/entities/user/ui/user-card"
-import { Button, Card, Tabs, Tab } from "@heroui/react"
-import { Grid, List, Settings } from "lucide-react"
-import { useState } from "react"
+import { Button, Card, Tabs, Tab, Spinner } from "@heroui/react"
+import { Grid, List } from "lucide-react"
+import { useEffect, useState } from "react"
 import Post from "@/entities/post/ui/post"
-import TagBadge from "@/entities/tag/ui/tag-badge"
+import { usePost } from "@/entities/post/api/post"
+import { formatPostDate } from "@/shared/lib/utils"
+import { useInView } from "react-intersection-observer"
+import ErrorCard from "@/shared/ui/error-card"
+import { useSession } from "@/entities/session/model/session-context"
+import { PostTag, Post as PostType } from "@/entities/post/model/post"
+import { usePostStore } from "@/entities/post/model/store"
 
 const UserProfile = () => {
     const [view, setView] = useState<"grid" | "list">("grid")
+    const { ref, inView } = useInView()
+    const { user } = useSession()
+    const { selectedTags } = usePostStore()
+
+    const { data, error, isLoading, fetchNextPage, hasNextPage } = usePost.useGetInfinitePosts({
+        pagination: {
+            page: 1,
+            count: 10
+        },
+        filters: {
+            ownerId: user?.id,
+            tags: selectedTags
+        },
+        sort: {}
+    })
+
+    useEffect(() => {
+        if (inView && hasNextPage) {
+            fetchNextPage()
+        }
+    }, [inView, hasNextPage])
+
+    if (error) return <ErrorCard message="Ошибка при загрузке постов" />
     
     return (
         <div className="flex flex-col gap-6 w-full">
             <Card className="w-full p-6 text-black">
-                    <UserCard className="m-0"/>
-                
+                <UserCard className="m-0"/>
                 <div className="flex justify-between items-center gap-8 mt-8 mx-10 border-t pt-6">
                     <div className="flex flex-col items-center">
                         <span className="text-2xl font-bold">128</span>
@@ -55,18 +83,23 @@ const UserProfile = () => {
             </div>
 
             <div className={view === "grid" ? "grid grid-cols-3 gap-4" : "flex flex-col gap-6"}>
-                {Array.from({ length: 10 }).map((_, index) => (
-                    <Post 
-                        key={index}
-                        isFull
-                        author="John Doe"
-                        date="2 часа назад"
-                        text="Красивое описание поста"
-                        image="https://picsum.photos/800/600"
-                        tags={[{id: "1", name: "Python"}, {id: "2", name: "JavaScript"}, {id: "3", name: "TypeScript"}, {id: "4", name: "React"}, {id: "5", name: "Next.js"}, {id: "6", name: "Tailwind CSS"}, {id: "7", name: "HTML"}, {id: "8", name: "CSS"}, {id: "9", name: "Test"}, {id: "10", name: "absolutely normal badge"}, {id: "11", name: "developer post"}, {id: "12", name: "fuck backend"}]}
-                        url="https://github.com/aivanns"
-                    />
-                ))}
+                {data?.pages.map((page) =>
+                    page.data.map((post: PostType) => (
+                        <Post 
+                            key={post.id}
+                            isFull
+                            author={post.ownerId}
+                            date={formatPostDate(post.createdAt)}
+                            tags={post.postTags.map((tag: PostTag) => tag.tag)}
+                            url={post.url}
+                            image={post.postMedias[0]?.media.url}
+                            text={post.description}
+                        />
+                    ))
+                )}
+                <div ref={ref} className="w-full flex justify-center py-4">
+                    {isLoading && <Spinner size="lg" />}
+                </div>
             </div>
         </div>
     )

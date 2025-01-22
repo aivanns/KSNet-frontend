@@ -25,7 +25,7 @@ const Navigation = () => {
             <nav className="flex flex-col">
                 {links.map((link) => {
                     if (link.onlyAuthorized && !isAuthenticated) return null
-                    if (link.href === '/profile') {link.href = `/profile/${user?.id}`}
+                    if (link.href === '/profile') {link.href = `/profile/${user?.username}`}
 
                     const Icon = link.icon
                     const isActive = isLinkActive(link.href)
