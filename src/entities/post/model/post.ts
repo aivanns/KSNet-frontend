@@ -11,7 +11,6 @@ export interface PostComponentProps {
     isFull?: boolean
     isLiked?: boolean
     likes?: number
-    likeId?: string
 }
 
 export interface Post {
@@ -27,9 +26,20 @@ export interface Post {
     postTags: PostTag[]
     postMedias: Media[]
     owner: Owner
-    isLiked: boolean
-    likes: number
+    likes: Like[]
+    likesCount: number
   }
+
+export interface PostPayload {
+    title: string
+    description: string
+    content: string
+    url: string
+}
+
+ export interface Like {
+    userId: string
+ }
   
   export interface PostTag {
     tag: Tag

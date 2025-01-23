@@ -12,6 +12,7 @@ import ErrorCard from "@/shared/ui/error-card"
 import { useSession } from "@/entities/session/model/session-context"
 import { PostTag, Post as PostType } from "@/entities/post/model/post"
 import { usePostStore } from "@/entities/post/model/store"
+import EmptyCard from "@/shared/ui/empty-card"
 
 const UserProfile = () => {
     const [view, setView] = useState<"grid" | "list">("list")
@@ -82,28 +83,32 @@ const UserProfile = () => {
                 </div>
             </div>
 
-            <div className={view === "grid" ? "hidden lg:grid lg:grid-cols-3 lg:gap-4" : "flex flex-col gap-6"}>
-                {data?.pages.map((page) =>
-                    page.data.map((post: PostType) => (
-                        <Post 
-                            key={post.id}
-                            id={post.id}
-                            isFull
-                            author={post.owner}
-                            date={formatPostDate(post.createdAt)}
-                            tags={post.postTags.map((tag: PostTag) => tag.tag)}
-                            url={post.url}
-                            image={post.postMedias[0]?.media.url}
-                            text={post.description}
-                            isLiked={post.isLiked}
-                            likes={post.likes}
-                        />
-                    ))
-                )}
-                <div ref={ref} className="w-full flex justify-center py-4">
-                    {isLoading && <Spinner size="lg" />}
+            {!isLoading && (!data?.pages[0]?.data || data.pages[0].data.length === 0) ? (
+                <EmptyCard message="У пользователя нет публикаций" />
+            ) : (
+                <div className={view === "grid" ? "hidden lg:grid lg:grid-cols-3 lg:gap-4" : "flex flex-col gap-6"}>
+                    {data?.pages.map((page) =>
+                        page.data.map((post: PostType) => (
+                            <Post 
+                                key={post.id}
+                                id={post.id}
+                                isFull={view === "list"}
+                                author={post.owner}
+                                date={formatPostDate(post.createdAt)}
+                                tags={post.postTags.map((tag: PostTag) => tag.tag)}
+                                url={post.url}
+                                image={post.postMedias[0]?.media.url}
+                                text={post.description}
+                                isLiked={post.likes.some((like) => like.userId === user?.id)}
+                                likes={post.likesCount}
+                            />
+                        ))
+                    )}
+                    <div ref={ref} className="w-full flex justify-center py-4">
+                        {isLoading && <Spinner size="lg" />}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     )
 }

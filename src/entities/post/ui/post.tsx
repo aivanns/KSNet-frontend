@@ -1,11 +1,11 @@
 "use client"
 
-import { Avatar, Card, CardHeader, CardBody, CardFooter, Button, Image } from "@heroui/react"
+import { Avatar, Card, CardHeader, CardBody, CardFooter, Button, Image, Spinner } from "@heroui/react"
 import { EllipsisVertical, Heart, MessageCircle } from "lucide-react"
 import { PostComponentProps } from "../model/post"
 import { usePost } from "../api/post"
 import PostMetadata from "@/shared/ui/post-metadata"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const Post = ({
     text, 
@@ -16,24 +16,28 @@ const Post = ({
     image, 
     isFull = false,
     id,
-    isLiked: initialIsLiked = false,
+    isLiked: initialIsLiked,
     likes: initialLikes = 0,
-    likeId: initialLikeId
 }: PostComponentProps) => {
-    const [isLiked, setIsLiked] = useState(initialIsLiked)
+    const [isLiked, setIsLiked] = useState<boolean | undefined>(initialIsLiked)
     const [likes, setLikes] = useState(initialLikes)
-    const [likeId, setLikeId] = useState(initialLikeId)
+    const [isLoading, setIsLoading] = useState(initialIsLiked === undefined)
     
     const { mutate: likePost, isPending: isLiking } = usePost.useLikePost(id)
-    const { mutate: dislikePost, isPending: isDisliking } = usePost.useDislikePost(likeId || "")
+    const { mutate: dislikePost, isPending: isDisliking } = usePost.useDislikePost(id)
+
+    useEffect(() => {
+        if (initialIsLiked !== undefined && isLoading) {
+            setIsLoading(false)
+        }
+    }, [initialIsLiked])
 
     const handleLike = () => {
-        if (isLiking || isDisliking) return
+        if (isLiking || isDisliking || isLiked === undefined) return
         if (isLiked) {
             dislikePost()
             setIsLiked(false)
             setLikes(prev => prev - 1)
-            setLikeId(undefined)
         } else {
             likePost()
             setIsLiked(true)
@@ -41,11 +45,19 @@ const Post = ({
         }
     }
 
+    if (isLoading) {
+        return (
+            <Card className={`${isFull ? "w-full" : "w-full lg:w-2/3"} p-2 min-h-[200px] flex items-center justify-center`}>
+                <Spinner size="lg" />
+            </Card>
+        )
+    }
+
     return <Card className={`${isFull ? "w-full" : "w-full lg:w-2/3"} p-2`}>
         <CardHeader className="justify-between">
             <div className="flex items-center gap-2">
                 <Avatar 
-                    src={author?.userMedias[0].media.url || "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png"} 
+                    src={author?.userMedias[0]?.media.url || "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png"} 
                     className="w-8 h-8 lg:w-10 lg:h-10"
                 />
                 <div className="flex flex-col items-start">
