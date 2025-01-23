@@ -14,7 +14,7 @@ import { PostTag, Post as PostType } from "@/entities/post/model/post"
 import { usePostStore } from "@/entities/post/model/store"
 
 const UserProfile = () => {
-    const [view, setView] = useState<"grid" | "list">("grid")
+    const [view, setView] = useState<"grid" | "list">("list")
     const { ref, inView } = useInView()
     const { user } = useSession()
     const { selectedTags } = usePostStore()
@@ -64,7 +64,7 @@ const UserProfile = () => {
                     <Tab key="posts" title="Публикации" />
                     <Tab key="saved" title="Сохраненные" />
                 </Tabs>
-                <div className="flex gap-2">
+                <div className="hidden lg:flex gap-2">
                     <Button 
                         isIconOnly 
                         variant={view === "grid" ? "solid" : "light"}
@@ -82,12 +82,12 @@ const UserProfile = () => {
                 </div>
             </div>
 
-            <div className={view === "grid" ? "grid grid-cols-3 gap-4" : "flex flex-col gap-6"}>
+            <div className={view === "grid" ? "hidden lg:grid lg:grid-cols-3 lg:gap-4" : "flex flex-col gap-6"}>
                 {data?.pages.map((page) =>
                     page.data.map((post: PostType) => (
                         <Post 
-                            id={post.id}
                             key={post.id}
+                            id={post.id}
                             isFull
                             author={post.owner}
                             date={formatPostDate(post.createdAt)}
