@@ -2,6 +2,7 @@ import { Filters, SortDirection, QueryPayload } from "@/shared/types/query"
 
 export interface PostComponentProps {
     id: string
+    title: string
     text: string
     author: Owner
     date: string
@@ -11,6 +12,7 @@ export interface PostComponentProps {
     isFull?: boolean
     isLiked?: boolean
     likes?: number
+    content?: string
 }
 
 export interface Post {

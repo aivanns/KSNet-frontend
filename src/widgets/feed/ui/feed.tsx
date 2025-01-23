@@ -75,6 +75,7 @@ const Feed = () => {
                         <Post 
                             id={post.id}
                             key={post.id}
+                            title={post.title}
                             author={post.owner} 
                             date={formatPostDate(post.createdAt)} 
                             tags={post.postTags.map((tag) => tag.tag)} 
@@ -83,6 +84,7 @@ const Feed = () => {
                             text={post.description} 
                             likes={post.likesCount}
                             isLiked={post.likes.some((like) => like.userId === user?.id)}
+                            content={post.content}
                         />
                     ))
                 )}

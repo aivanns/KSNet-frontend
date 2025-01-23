@@ -92,6 +92,7 @@ const UserProfile = () => {
                             <Post 
                                 key={post.id}
                                 id={post.id}
+                                title={post.title}
                                 isFull={view === "list"}
                                 author={post.owner}
                                 date={formatPostDate(post.createdAt)}
@@ -101,6 +102,7 @@ const UserProfile = () => {
                                 text={post.description}
                                 isLiked={post.likes.some((like) => like.userId === user?.id)}
                                 likes={post.likesCount}
+                                content={post.content}
                             />
                         ))
                     )}
