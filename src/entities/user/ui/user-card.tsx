@@ -9,7 +9,7 @@ import { toast } from "sonner"
 
 const UserCard = ({className}: {className?: string}) => {
     const { isAuthenticated, user } = useSession()
-    const { mutate: uploadAvatar, isPending } = useUserApi.mutateAvatar()
+    const { mutate: uploadAvatar, isPending } = useUserApi.useMutateAvatar()
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     if (!isAuthenticated || !user) return null

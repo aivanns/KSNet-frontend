@@ -21,13 +21,13 @@ export const userApi = {
 }
 
 const useUserApi = {
-  getMe: () => {
+  useGetMe: () => {
     return useQuery({
       queryKey: ['user'],
       queryFn: userApi.getMe
     })
   },
-  mutateAvatar: () => {
+  useMutateAvatar: () => {
     return useMutation({
       mutationFn: userApi.uploadAvatar,
       onSuccess: () => {
