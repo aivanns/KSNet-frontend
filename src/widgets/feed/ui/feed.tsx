@@ -45,14 +45,14 @@ const Feed = () => {
 
     return (
         <>
-            <div className="fixed bottom-6 right-6 lg:static lg:mb-6">
+            <div className="fixed bottom-6 right-6 lg:static lg:mb-6 z-50">
                 <Button 
                     variant="light"
                     className="bg-white shadow-md hover:bg-neutral-100 lg:w-auto rounded-xl"
                     onPress={() => setIsCreatePostOpen(true)}
                 >
-                    <Plus className="lg:hidden" size={24} />
-                    <span className="hidden lg:flex items-center gap-2">
+                    <Plus className="block lg:hidden" size={24} />
+                    <span className="hidden lg:flex gap-2 items-center">
                         <Plus size={20} />
                         Создать пост
                     </span>
