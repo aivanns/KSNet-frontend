@@ -8,14 +8,14 @@ interface PageLayoutProps {
 
 const PageLayout = ({ leftSection, mainSection, rightSection }: PageLayoutProps) => {
     return (
-        <div className="flex h-full my-5">
-            <div className="w-1/5 text-center px-5">
+        <div className="flex flex-col lg:flex-row h-full my-5 gap-5 px-4 lg:px-0">
+            <div className="hidden lg:block lg:w-1/5 text-center px-5">
                 {leftSection}
             </div>
-            <div className="w-3/5 text-center">
+            <div className="w-full lg:w-3/5 text-center">
                 {mainSection}
             </div>
-            <div className="w-1/5 text-center px-5">
+            <div className="hidden lg:block lg:w-1/5 text-center px-5">
                 {rightSection}
             </div>
         </div>

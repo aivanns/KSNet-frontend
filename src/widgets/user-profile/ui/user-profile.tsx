@@ -86,14 +86,17 @@ const UserProfile = () => {
                 {data?.pages.map((page) =>
                     page.data.map((post: PostType) => (
                         <Post 
+                            id={post.id}
                             key={post.id}
                             isFull
-                            author={post.ownerId}
+                            author={post.owner}
                             date={formatPostDate(post.createdAt)}
                             tags={post.postTags.map((tag: PostTag) => tag.tag)}
                             url={post.url}
                             image={post.postMedias[0]?.media.url}
                             text={post.description}
+                            isLiked={post.isLiked}
+                            likes={post.likes}
                         />
                     ))
                 )}

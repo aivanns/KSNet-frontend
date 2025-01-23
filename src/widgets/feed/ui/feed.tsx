@@ -40,13 +40,16 @@ const Feed = () => {
                 {data?.pages.map((page) =>
                     page.data.map((post: PostType) => (
                         <Post 
+                            id={post.id}
                             key={post.id}
-                            author={post.ownerId} 
+                            author={post.owner} 
                             date={formatPostDate(post.createdAt)} 
                             tags={post.postTags.map((tag) => tag.tag)} 
                             url={post.url} 
                             image={post.postMedias[0]?.media.url} 
                             text={post.description} 
+                            isLiked={post.isLiked}
+                            likes={post.likes}
                         />
                     ))
                 )}

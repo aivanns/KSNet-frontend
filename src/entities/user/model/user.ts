@@ -21,9 +21,18 @@ export interface Role {
 }
 
 export interface UserMedia {
+  userId: string
+  mediaId: string
+  createdAt: string
+  updatedAt: string
+  media: Media
+}
+
+export interface Media {
   id: string
   url: string
+  filename: string
+  type: string
   createdAt: string
   updatedAt: string
 }
-
