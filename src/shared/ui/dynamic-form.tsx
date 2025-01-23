@@ -11,7 +11,7 @@ import { Button } from '@heroui/react'
 export interface FormField {
   name: string
   label: string
-  type: string
+  type: 'text' | 'email' | 'password' | 'textarea'
   required?: boolean
   autoComplete?: string
   endContent?: boolean

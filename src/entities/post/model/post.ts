@@ -1,13 +1,18 @@
 import { Filters, SortDirection, QueryPayload } from "@/shared/types/query"
 
 export interface PostComponentProps {
+    id: string
+    title: string
     text: string
-    author: string
+    author: Owner
     date: string
     image?: string
     tags?: Tag[]
     url?: string
     isFull?: boolean
+    isLiked?: boolean
+    likes?: number
+    content?: string
 }
 
 export interface Post {
@@ -21,11 +26,22 @@ export interface Post {
     createdAt: string
     updatedAt: string
     postTags: PostTag[]
-    postMedias: PostMedia[]
+    postMedias: Media[]
     owner: Owner
-    isLiked: boolean
-    likes: number
+    likes: Like[]
+    likesCount: number
   }
+
+export interface PostPayload {
+    title: string
+    description: string
+    content: string
+    url: string
+}
+
+ export interface Like {
+    userId: string
+ }
   
   export interface PostTag {
     tag: Tag
@@ -35,14 +51,13 @@ export interface Post {
     name: string
     id: string
   }
-  
-  export interface PostMedia {
-    media: Media
-  }
+
   
   export interface Media {
-    url: string
-    id: string
+    media: {
+        url: string
+        id: string
+    }
   }
   
   export interface Owner {

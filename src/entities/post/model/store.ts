@@ -14,7 +14,7 @@ interface PostState {
 
 export const usePostStore = create<PostState>((set) => ({
   filters: {},
-  sort: {},
+  sort: {createdAt: 'desc'},
   searchQuery: '',
   selectedTags: [],
   setFilters: (filters) => set({ filters }),
