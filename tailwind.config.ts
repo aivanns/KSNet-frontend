@@ -30,7 +30,10 @@ export default {
           blue: "var(--accent-blue)",
           green: "var(--accent-green)",
           yellow: "var(--accent-yellow)",
-        }
+        },
+        lightOrange: "var(--light-orange)",
+        fawn: "var(--fawn)",
+        safetyOrange: "var(--safety-orange)",
       },
     },
   },

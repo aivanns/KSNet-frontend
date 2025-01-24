@@ -34,7 +34,7 @@ const Post = ({
         if (initialIsLiked !== undefined && isLoading) {
             setIsLoading(false)
         }
-    }, [initialIsLiked])
+    }, [initialIsLiked, isLoading])
 
     const handleLike = () => {
         if (isLiking || isDisliking || isLiked === undefined) return
@@ -63,8 +63,8 @@ const Post = ({
                 <CardHeader className="justify-between">
                     <div className="flex items-center gap-2">
                         <Avatar 
-                            src={author?.userMedias[0]?.media.url || "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png"} 
-                            className="w-8 h-8 lg:w-10 lg:h-10"
+                            src={author?.userMedias[0]?.media.url || "https://www.ks54.ru/wp-content/uploads/2020/02/ks54-300x300.png"} 
+                            className="w-8 h-8 lg:w-10 lg:h-10 bg-neutral-200"
                         />
                         <div className="flex flex-col items-start">
                             <p className="text-xs lg:text-sm font-medium text-black">{author?.firstName} {author?.lastName}</p>

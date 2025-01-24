@@ -15,11 +15,10 @@ export const LogoutButton = ({ wide = false, className }: LogoutButtonProps) => 
   if (wide) {
     return (
       <Button
-        color="danger"
         onPress={logout}
-        className={className}
+        className={className + ' bg-safetyOrange text-white'}
       >
-        <LogOut className="w-4 h-4 mr-2" />
+        <LogOut className="w-4 h-4 mr-2" transform="rotate(180)" />
         Выйти
       </Button>
     )
@@ -27,12 +26,11 @@ export const LogoutButton = ({ wide = false, className }: LogoutButtonProps) => 
 
   return (
     <Button
-      color="danger"
       isIconOnly
       onPress={logout}
-      className={className}
+      className={className + ' bg-safetyOrange text-white'}
     >
-      <LogOut className="w-4 h-4" />
+      <LogOut className="w-4 h-4" transform="rotate(180)" />
     </Button>
   )
 }

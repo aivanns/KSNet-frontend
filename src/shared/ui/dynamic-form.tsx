@@ -102,7 +102,7 @@ export function DynamicFormFields<T extends z.ZodType>({
         color="primary"
         size="lg"
         isLoading={submitButton.isLoading}
-        className="w-full bg-black text-white mt-6"
+        className="w-full bg-fawn text-white mt-6"
       >
         {submitButton.text}
       </Button>

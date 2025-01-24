@@ -60,7 +60,7 @@ export function RegisterForm() {
         {t('auth.haveAccount')}{' '}
         <Link 
           href="/login" 
-          className="text-primary hover:underline font-medium"
+          className="text-safetyOrange hover:underline font-medium"
         >
           {t('auth.signIn')}
         </Link>

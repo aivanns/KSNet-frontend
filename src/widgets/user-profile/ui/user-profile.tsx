@@ -36,7 +36,7 @@ const UserProfile = () => {
         if (inView && hasNextPage) {
             fetchNextPage()
         }
-    }, [inView, hasNextPage])
+    }, [inView, hasNextPage, fetchNextPage])
 
     if (error) return <ErrorCard message="Ошибка при загрузке постов" />
     
@@ -93,7 +93,7 @@ const UserProfile = () => {
                                 key={post.id}
                                 id={post.id}
                                 title={post.title}
-                                isFull={view === "list"}
+                                isFull
                                 author={post.owner}
                                 date={formatPostDate(post.createdAt)}
                                 tags={post.postTags.map((tag: PostTag) => tag.tag)}

@@ -60,7 +60,7 @@ export function LoginForm() {
         {t('auth.noAccount')}{' '}
         <Link 
           href="/register" 
-          className="text-primary hover:underline font-medium"
+          className="text-safetyOrange hover:underline font-medium"
         >
           {t('auth.createAccount')}
         </Link>

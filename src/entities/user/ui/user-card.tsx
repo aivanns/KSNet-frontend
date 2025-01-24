@@ -35,8 +35,8 @@ const UserCard = ({className}: {className?: string}) => {
         <div className={`flex flex-col items-center justify-between mx-10 ${className}`}>
             <div className="relative group cursor-pointer" onClick={handleAvatarClick}>
                 <Avatar 
-                    src={user.userMedias[0]?.media.url || "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png"} 
-                    className="w-20 h-20 text-lg"
+                    src={user.userMedias[0]?.media.url || "https://www.ks54.ru/wp-content/uploads/2020/02/ks54-300x300.png"} 
+                    className="w-20 h-20 text-lg bg-neutral-200"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                     {isPending ? 'Загрузка...' : 'Изменить фото'}
@@ -50,7 +50,7 @@ const UserCard = ({className}: {className?: string}) => {
                 />
             </div>
             <p className="text-2xl font-bold">{user?.firstName} {user?.lastName}</p>
-            <Link size="sm" href={profileUrl}>@{user?.username}</Link>
+            <Link size="sm" className="text-safetyOrange" href={profileUrl}>@{user?.username}</Link>
         </div>
     )
 }
