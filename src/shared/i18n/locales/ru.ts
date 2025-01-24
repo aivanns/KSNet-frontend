@@ -2,6 +2,10 @@ export const ru = {
   translation: {
     auth: {
       login: 'Вход в аккаунт',
+      group: 'Группа',
+      firstName: 'Имя',
+      lastName: 'Фамилия',
+      username: 'Логин',
       register: 'Регистрация',
       email: 'Email',
       password: 'Пароль',

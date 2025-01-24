@@ -1,7 +1,7 @@
 "use client"
 
 import { Avatar, Card, CardHeader, CardBody, CardFooter, Button, Image, Spinner, Modal, ModalContent } from "@heroui/react"
-import { EllipsisVertical, Heart, MessageCircle, FileText, X } from "lucide-react"
+import { EllipsisVertical, Heart, FileText, X } from "lucide-react"
 import { PostComponentProps } from "../model/post"
 import { usePost } from "../api/post"
 import PostMetadata from "@/shared/ui/post-metadata"
@@ -111,9 +111,6 @@ const Post = ({
                                         {likes}
                                     </p>
                                 </div>
-                                <Button variant="light" isIconOnly size="sm">
-                                    <MessageCircle />
-                                </Button>
                             </div>
                             {content && (
                                 <Button 
@@ -150,7 +147,7 @@ const Post = ({
                             </button>
                         </div>
                         <div className="prose max-w-none dark:prose-invert">
-                            <MDEditor.Markdown source={content} style={{ backgroundColor: 'transparent' }} />
+                            <MDEditor.Markdown source={content} style={{borderRadius: '10px', padding: '15px'}} />
                         </div>
                     </Card>
                 </ModalContent>
