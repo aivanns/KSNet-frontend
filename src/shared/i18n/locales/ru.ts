@@ -1,5 +1,12 @@
 export const ru = {
   translation: {
+    admin: {
+      panel: 'Панель администратора',
+      users: 'Пользователи',
+      posts: 'Посты',
+      stats: 'Статистика',
+      title: 'Панель администратора'
+    },
     auth: {
       login: 'Вход в аккаунт',
       group: 'Группа',

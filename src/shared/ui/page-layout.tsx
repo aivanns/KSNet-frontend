@@ -59,7 +59,7 @@ const PageLayout = ({ leftSection, mainSection, rightSection }: PageLayoutProps)
                 {leftSection}
             </div>
 
-            <div className="w-full lg:w-3/5 text-center mt-5">
+            <div className="w-full lg:w-3/5 text-center my-5">
                 {mainSection}
             </div>
 
