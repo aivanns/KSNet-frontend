@@ -1,9 +1,16 @@
+import { useSession } from "@/entities/session/model/session-context"
+import PostTab from "@/features/admin-tabs/ui/post-tab"
+import UsersTab from "@/features/admin-tabs/ui/users-tab"
+import ErrorCard from "@/shared/ui/error-card"
 import { Card } from "@heroui/react"
 import { Tabs, Tab } from "@heroui/react"
 import { useTranslation } from "react-i18next"
 
 const AdminPanel = () => {
     const { t } = useTranslation()
+    const { user } = useSession()
+
+    if (user?.role.name != 'Администратор') return <ErrorCard message="У вас нет доступа!" />;
 
     return (
         <Card className="w-full h-full text-neutral-900">
@@ -17,13 +24,13 @@ const AdminPanel = () => {
                     variant="underlined"
                     className="w-full"
                 >
-                    <Tab key="users" title={t('admin.users')}>
-                        <div className="p-4">Контент пользователей</div>
+                    <Tab key="users" className="w-full" title={t('admin.users')}>
+                        <UsersTab />
                     </Tab>
-                    <Tab key="posts" title={t('admin.posts')}>
-                        <div className="p-4">Контент постов</div>
+                    <Tab key="posts" className="w-full" title={t('admin.posts')}>
+                        <PostTab />
                     </Tab>
-                    <Tab key="stats" title={t('admin.stats')}>
+                    <Tab key="stats" className="w-full" title={t('admin.stats')}>
                         <div className="p-4">Контент статистики</div>
                     </Tab>
                 </Tabs>

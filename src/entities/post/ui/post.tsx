@@ -18,6 +18,7 @@ const Post = ({
     image, 
     isFull = false,
     id,
+    isVerified = true,
     isLiked: initialIsLiked,
     likes: initialLikes = 0,
     content

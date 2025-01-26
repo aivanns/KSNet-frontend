@@ -10,6 +10,7 @@ export interface PostComponentProps {
     tags?: Tag[]
     url?: string
     isFull?: boolean
+    isVerified?: boolean,
     isLiked?: boolean
     likes?: number
     content?: string

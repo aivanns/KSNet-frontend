@@ -1,16 +1,24 @@
+import { Filters, QueryPayload, SortDirection } from "@/shared/types/query"
+
 export interface User {
   id: string
   email: string
   username: string
-  roleId: string
   firstName: string
   lastName: string
-  groupId: string
-  isActive: boolean
   createdAt: string
   updatedAt: string
+  group: Group
+  userMedias: any[]
+  likes: any[]
   role: Role
-  userMedias: UserMedia[]
+}
+
+export interface Group {
+  id: string
+  name: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface Role {
@@ -36,3 +44,18 @@ export interface Media {
   createdAt: string
   updatedAt: string
 }
+
+export interface UserFilters extends Filters {
+  email?: string
+  firstName?: string
+  lastName?: string
+}
+  
+export interface UserSort {
+  email?: SortDirection
+  firstName?: SortDirection
+  lastName?: SortDirection
+}
+
+export type UserQueryPayload = QueryPayload<UserFilters, UserSort>
+
