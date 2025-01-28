@@ -9,6 +9,7 @@ import { useState, useEffect } from "react"
 import MDEditor from "@uiw/react-md-editor"
 import { toast } from "sonner"
 import { useSession } from "@/entities/session/model/session-context"
+import AddLikesModal from "./add-likes-modal"
 
 const Post = ({
     text,
@@ -29,11 +30,13 @@ const Post = ({
     const [likes, setLikes] = useState(initialLikes)
     const [isLoading, setIsLoading] = useState(initialIsLiked === undefined)
     const [isContentOpen, setIsContentOpen] = useState(false)
+    const [isLikesModalOpen, setIsLikesModalOpen] = useState(false)
     const { user } = useSession()
     
     const { mutate: likePost, isPending: isLiking } = usePost.useLikePost(id)
     const { mutate: dislikePost, isPending: isDisliking } = usePost.useDislikePost(id)
     const { mutate: deletePost } = usePost.useDeletePost(id)
+    const { mutate: addFakeLikes } = usePost.useAddFakeLikes(id)
 
     useEffect(() => {
         if (initialIsLiked !== undefined && isLoading) {
@@ -61,6 +64,18 @@ const Post = ({
             },
             onError: () => {
                 toast.error("Ошибка при удалении поста")
+            }
+        })
+    }
+
+    const handleAddLikes = (count: number) => {
+        addFakeLikes(count, {
+            onSuccess: () => {
+                toast.success("Лайки успешно добавлены")
+                setIsLikesModalOpen(false)
+            },
+            onError: () => {
+                toast.error("Ошибка при добавлении лайков")
             }
         })
     }
@@ -101,10 +116,18 @@ const Post = ({
                                     color="danger" 
                                     variant="light" 
                                     onPress={handleDelete}
-                                    className="w-full"
+                                    className="w-full mb-2"
                                     startContent={<Trash2 size={16} />}
                                 >
                                     Удалить
+                                </Button>
+                                <Button 
+                                    variant="light" 
+                                    onPress={() => setIsLikesModalOpen(true)}
+                                    className="w-full text-safetyOrange"
+                                    startContent={<Heart size={16} />}
+                                >
+                                    Указать лайки
                                 </Button>
                             </PopoverContent>
                         </Popover>
@@ -187,6 +210,12 @@ const Post = ({
                     </Card>
                 </ModalContent>
             </Modal>
+
+            <AddLikesModal 
+                isOpen={isLikesModalOpen}
+                onClose={() => setIsLikesModalOpen(false)}
+                onSubmit={handleAddLikes}
+            />
         </>
     )
 }

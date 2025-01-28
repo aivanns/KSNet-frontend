@@ -1,5 +1,6 @@
 import { useSession } from "@/entities/session/model/session-context"
 import PostTab from "@/features/admin-tabs/ui/post-tab"
+import TopTab from "@/features/admin-tabs/ui/top-tab"
 import UsersTab from "@/features/admin-tabs/ui/users-tab"
 import ErrorCard from "@/shared/ui/error-card"
 import { Card } from "@heroui/react"
@@ -29,6 +30,9 @@ const AdminPanel = () => {
                     </Tab>
                     <Tab key="posts" className="w-full" title={t('admin.posts')}>
                         <PostTab />
+                    </Tab>
+                    <Tab key="top" className="w-full" title={t('admin.top')}>
+                        <TopTab />
                     </Tab>
                     <Tab key="stats" className="w-full" title={t('admin.stats')}>
                         <div className="p-4">Контент статистики</div>

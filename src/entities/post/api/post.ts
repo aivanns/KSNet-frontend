@@ -1,4 +1,4 @@
-import { api } from "@/shared/api/api"
+import { adminApi, api } from "@/shared/api/api"
 import { queryClient } from "@/shared/lib/react-query"
 import { QueryPayload } from "@/shared/types/query"
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query"
@@ -23,6 +23,10 @@ export const postApi = {
     },
     deletePost: async (postId: string) => {
         const response = await api.delete(`/post/${postId}`)
+        return response.data
+    },
+    addFakeLikes: async (postId: string, fakeLikes: number) => {
+        const response = await adminApi.post(`/post/${postId}/update-fake-likes`, { fakeLikes })
         return response.data
     }
 }
@@ -73,6 +77,14 @@ export const usePost = {
     useDeletePost: (postId: string) => {
         return useMutation({
             mutationFn: () => postApi.deletePost(postId),
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['posts'] })
+            }
+        })
+    },
+    useAddFakeLikes: (postId: string) => {
+        return useMutation({
+            mutationFn: (fakeLikes: number) => postApi.addFakeLikes(postId, fakeLikes),
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ['posts'] })
             }

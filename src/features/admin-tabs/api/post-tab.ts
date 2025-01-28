@@ -15,6 +15,10 @@ const adminPostApi = {
     deletePost: async (id: string) => {
         const { data } = await adminApi.delete(`post/${id}`)
         return data
+    },
+    addPostToTop: async (id: string, place: number) => {
+        const { data } = await adminApi.post(`post/${id}/add-to-top`, { place })
+        return data
     }
 }
 
@@ -36,6 +40,14 @@ export const useAdminPostApi = {
     useDeletePost: () => {
         return useMutation({
             mutationFn: (id: string) => adminPostApi.deletePost(id),
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['posts'] })
+            }
+        })
+    },
+    useAddPostToTop: () => {
+        return useMutation({
+            mutationFn: ({ id, place }: { id: string; place: number }) => adminPostApi.addPostToTop(id, place),
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ['posts'] })
             }
