@@ -21,6 +21,7 @@ const PostTab = () => {
     })
 
     const { mutate: verifyPost } = useAdminPostApi.useVerifyPost()
+    const { mutate: deletePost } = useAdminPostApi.useDeletePost()
 
     if (error) return <ErrorCard message="Произошла ошибка"/>
     if (isLoading) return <Skeleton className="p-10 w-full h-full" />
@@ -60,6 +61,7 @@ const PostTab = () => {
                             <Button 
                                 color="danger" 
                                 variant="flat"
+                                onPress={() => deletePost(post.id)}
                                 startContent={<Trash2 size={18} />}
                             >
                                 Удалить

@@ -20,6 +20,10 @@ export const postApi = {
     createPost: async (post: PostPayload) => {
         const response = await api.post('/post', post)
         return response.data
+    },
+    deletePost: async (postId: string) => {
+        const response = await api.delete(`/post/${postId}`)
+        return response.data
     }
 }
 
@@ -61,6 +65,14 @@ export const usePost = {
     useCreatePost: () => {
         return useMutation({
             mutationFn: (post: PostPayload) => postApi.createPost(post),
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['posts'] })
+            }
+        })
+    },
+    useDeletePost: (postId: string) => {
+        return useMutation({
+            mutationFn: () => postApi.deletePost(postId),
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ['posts'] })
             }

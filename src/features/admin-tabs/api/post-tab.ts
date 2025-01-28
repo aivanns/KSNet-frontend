@@ -11,6 +11,10 @@ const adminPostApi = {
     verifyPost: async (id: string) => {
         const { data } = await adminApi.put(`post/${id}/verify`)
         return data
+    },
+    deletePost: async (id: string) => {
+        const { data } = await adminApi.delete(`post/${id}`)
+        return data
     }
 }
 
@@ -24,6 +28,14 @@ export const useAdminPostApi = {
     useVerifyPost: () => {
         return useMutation({
             mutationFn: (id: string) => adminPostApi.verifyPost(id),
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['posts'] })
+            }
+        })
+    },
+    useDeletePost: () => {
+        return useMutation({
+            mutationFn: (id: string) => adminPostApi.deletePost(id),
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ['posts'] })
             }

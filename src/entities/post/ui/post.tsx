@@ -1,12 +1,14 @@
 "use client"
 
-import { Avatar, Card, CardHeader, CardBody, CardFooter, Button, Image, Spinner, Modal, ModalContent } from "@heroui/react"
-import { EllipsisVertical, Heart, FileText, X } from "lucide-react"
+import { Avatar, Card, CardHeader, CardBody, CardFooter, Button, Image, Spinner, Modal, ModalContent, Popover, PopoverTrigger, PopoverContent } from "@heroui/react"
+import { EllipsisVertical, Heart, FileText, X, Trash2 } from "lucide-react"
 import { PostComponentProps } from "../model/post"
 import { usePost } from "../api/post"
 import PostMetadata from "@/shared/ui/post-metadata"
 import { useState, useEffect } from "react"
 import MDEditor from "@uiw/react-md-editor"
+import { toast } from "sonner"
+import { useSession } from "@/entities/session/model/session-context"
 
 const Post = ({
     text,
@@ -27,9 +29,11 @@ const Post = ({
     const [likes, setLikes] = useState(initialLikes)
     const [isLoading, setIsLoading] = useState(initialIsLiked === undefined)
     const [isContentOpen, setIsContentOpen] = useState(false)
+    const { user } = useSession()
     
     const { mutate: likePost, isPending: isLiking } = usePost.useLikePost(id)
     const { mutate: dislikePost, isPending: isDisliking } = usePost.useDislikePost(id)
+    const { mutate: deletePost } = usePost.useDeletePost(id)
 
     useEffect(() => {
         if (initialIsLiked !== undefined && isLoading) {
@@ -50,6 +54,17 @@ const Post = ({
         }
     }
 
+    const handleDelete = () => {
+        deletePost(undefined, {
+            onSuccess: () => {
+                toast.success("Пост успешно удален")
+            },
+            onError: () => {
+                toast.error("Ошибка при удалении поста")
+            }
+        })
+    }
+
     if (isLoading) {
         return (
             <Card className={`${isFull ? "w-full" : "w-full lg:w-2/3"} p-2 min-h-[200px] flex items-center justify-center`}>
@@ -57,6 +72,8 @@ const Post = ({
             </Card>
         )
     }
+
+    const isOwner = user?.id === author?.id
 
     return (
         <>
@@ -72,9 +89,26 @@ const Post = ({
                             <p className="text-xs lg:text-tiny font-medium text-gray-500">{date}</p>
                         </div>
                     </div>
-                    <Button variant="light" isIconOnly size="sm">
-                        <EllipsisVertical className="w-4 h-4 lg:w-5 lg:h-5" />
-                    </Button>
+                    {isOwner && (
+                        <Popover placement="bottom-end">
+                            <PopoverTrigger>
+                                <Button variant="light" isIconOnly size="sm">
+                                    <EllipsisVertical className="w-4 h-4 lg:w-5 lg:h-5" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <Button 
+                                    color="danger" 
+                                    variant="light" 
+                                    onPress={handleDelete}
+                                    className="w-full"
+                                    startContent={<Trash2 size={16} />}
+                                >
+                                    Удалить
+                                </Button>
+                            </PopoverContent>
+                        </Popover>
+                    )}
                 </CardHeader>
                 <CardBody className="flex flex-col gap-6">
                     <p className="text-xl font-medium text-black">{title}</p>
