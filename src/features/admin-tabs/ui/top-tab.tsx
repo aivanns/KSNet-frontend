@@ -1,3 +1,5 @@
+'use client'
+
 import { useAdminPostApi } from '@/features/admin-tabs/api/post-tab'
 import { toast } from 'sonner'
 import { Card, Select, SelectItem } from '@heroui/react'
