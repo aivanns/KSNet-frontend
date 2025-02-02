@@ -1,7 +1,7 @@
 'use client'
 
 import { routes } from "@/shared/constants/routes"
-import { Home, Search, Bell, User, Settings } from "lucide-react"
+import { Home, Search, Bell, User, Settings, Star } from "lucide-react"
 
 export const links = [
     {
@@ -21,5 +21,11 @@ export const links = [
         label: "Панель администратора",
         icon: Settings,
         onlyAuthorized: true
+    },
+    {
+        href: routes.top,
+        label: "Лучшие работы",
+        icon: Star,
+        onlyAuthorized: false
     }
 ]

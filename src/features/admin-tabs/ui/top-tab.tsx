@@ -100,6 +100,7 @@ const TopTab = () => {
                 {topPosts.map(({ place, post }) => (
                     <Card key={place} className="p-4 border-2 border-dashed border-neutral-200">
                         <div className="flex items-center justify-between mb-4 text-neutral-900 gap-4">
+                            <div className='flex flex-col lg:flex-row items-center gap-4'>
                             <div className="flex items-center gap-4">
                                 <Trophy className="w-5 h-5 text-amber-500" />
                                 <span className="font-medium text-lg">Место #{place}</span>
@@ -107,9 +108,10 @@ const TopTab = () => {
                             <div className="flex items-center gap-2">
                                 <Select
                                     placeholder="Выберите пост"
-                                    className="max-w-[200px]"
+                                    className="min-w-[200px]"
                                     onChange={(event) => handleAddToTop(event.target.value, place)}
                                     selectedKeys={post ? [post.id] : []}
+                                    aria-label="Выбор поста для топа"
                                 >
                                     {posts?.pages[0]?.data.map((post: PostType) => (
                                         <SelectItem key={post.id} value={post.id}>
@@ -123,11 +125,13 @@ const TopTab = () => {
                                         color="danger"
                                         variant="light"
                                         onPress={() => handleRemoveFromTop(place)}
+                                        aria-label="Удалить пост из топа"
                                     >
                                         <X size={18} />
                                     </Button>
                                 )}
                             </div>
+                        </div>
                         </div>
                         {post && (
                             <Post
