@@ -1,11 +1,11 @@
 import { Post, PostFilters, PostSort, PostQueryPayload } from "@/entities/post/model/post";
 
-export interface AdminPost extends Post {}
+export type AdminPost = Post;
 
 export interface AdminPostFilters extends PostFilters {
-    isVerified?: string
+    isVerified?: boolean;
 }
 
-export interface AdminPostSort extends PostSort {}
+export type AdminPostSort = PostSort;
 
-export interface AdminPostQueryPayload extends PostQueryPayload {}
+export type AdminPostQueryPayload = PostQueryPayload;

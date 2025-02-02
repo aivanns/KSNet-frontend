@@ -52,7 +52,7 @@ const TopTab = () => {
             })
             setTopPosts(updatedTopPosts)
         }
-    }, [topPostsData])
+    }, [topPostsData, topPosts])
 
     const { mutate: addToTop } = useAdminPostApi.useAddPostToTop()
     const { mutate: removeFromTop } = useAdminPostApi.useRemovePostFromTop()

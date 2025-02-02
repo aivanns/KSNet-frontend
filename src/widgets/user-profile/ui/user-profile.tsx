@@ -20,7 +20,7 @@ const UserProfile = ({userId}: {userId: string}) => {
     const { ref, inView } = useInView()
     const { selectedTags } = usePostStore()
 
-    const { data: user, error: userError, isLoading: userLoading } = useUserApi.useGetUser(userId)
+    const { data: user, error: userError } = useUserApi.useGetUser(userId)
     const { data, error, isLoading, fetchNextPage, hasNextPage } = usePost.useGetInfinitePosts({
         pagination: {
             page: 1,

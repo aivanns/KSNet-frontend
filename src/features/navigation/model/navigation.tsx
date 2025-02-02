@@ -1,7 +1,7 @@
 'use client'
 
 import { routes } from "@/shared/constants/routes"
-import { Home, Search, Bell, User, Settings, Star } from "lucide-react"
+import { Home, User, Settings, Star } from "lucide-react"
 
 export const links = [
     {

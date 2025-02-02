@@ -9,8 +9,8 @@ export interface User {
   createdAt: string
   updatedAt: string
   group: Group
-  userMedias: any[]
-  likes: any[]
+  userMedias: UserMedia[]
+  likes: Like[]
   role: Role
 }
 
@@ -34,6 +34,14 @@ export interface UserMedia {
   createdAt: string
   updatedAt: string
   media: Media
+}
+
+export interface Like {
+  id: string
+  userId: string
+  postId: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface Media {
