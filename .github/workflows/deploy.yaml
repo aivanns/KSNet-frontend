@@ -34,6 +34,7 @@ jobs:
             cd ..
             
             echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env 
+            echo "NEXT_PUBLIC_ADMIN_API_URL=${{ secrets.NEXT_PUBLIC_ADMIN_API_URL }}" >> .env
 
             cat .env
 
