@@ -12,6 +12,7 @@ import { LogoutButton } from "@/shared/ui/logout-button"
 const Navigation = () => {
     const pathname = usePathname()
     const { isAuthenticated, user } = useSession()
+    const isAdmin = user?.role.name === 'Администратор'
 
     const isLinkActive = (href: string) => {
         if (href === '/') {
@@ -26,6 +27,7 @@ const Navigation = () => {
                 {links.map((link) => {
                     if (link.onlyAuthorized && !isAuthenticated) return null
                     if (link.href === '/profile') {link.href = `/profile/${user?.username}`}
+                    if (link.href === '/admin' && !isAdmin) return null
 
                     const Icon = link.icon
                     const isActive = isLinkActive(link.href)

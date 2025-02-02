@@ -27,7 +27,7 @@ const PageLayout = ({ leftSection, mainSection, rightSection }: PageLayoutProps)
     }, [isSidebarOpen, isFiltersOpen])
 
     return (
-        <div className="relative flex flex-col lg:flex-row h-full mb-5 gap-5 px-4 lg:px-0">
+        <div className="relative flex flex-col lg:flex-row h-full gap-5 px-4 lg:px-0">
             <Button
                 isIconOnly
                 variant="flat"

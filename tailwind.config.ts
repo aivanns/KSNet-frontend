@@ -35,6 +35,9 @@ export default {
         fawn: "var(--fawn)",
         safetyOrange: "var(--safety-orange)",
       },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+    }
     },
   },
   darkMode: "class",
