@@ -1,3 +1,5 @@
+'use client'
+
 import { useSession } from "@/entities/session/model/session-context"
 import PostTab from "@/features/admin-tabs/ui/post-tab"
 import TopTab from "@/features/admin-tabs/ui/top-tab"

@@ -1,3 +1,5 @@
+'use client'
+
 import { Avatar, Card, Chip } from "@heroui/react"
 import { User } from "@/entities/user/model/user"
 import { Mail, Calendar, MapPin } from "lucide-react"

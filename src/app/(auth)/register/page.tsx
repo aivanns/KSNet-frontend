@@ -1,3 +1,5 @@
+'use client'
+
 import { RegisterForm } from "@/features/auth/ui/register-form"
 
 const RegisterPage = () => {

@@ -1,3 +1,5 @@
+'use client'
+
 import ErrorCard from "@/shared/ui/error-card"
 import { useAdminPostApi } from "../api/post-tab"
 import { Skeleton } from "@heroui/react"

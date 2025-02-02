@@ -1,3 +1,5 @@
+'use client'
+
 const getColorFromHash = (tag: string) => {
     const colors = [
         'bg-blue-100 text-blue-600',

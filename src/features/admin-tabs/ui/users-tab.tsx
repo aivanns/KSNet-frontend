@@ -1,3 +1,5 @@
+'use client'
+
 import { Loader } from "lucide-react"
 import ErrorCard from "@/shared/ui/error-card"
 import { useAdminUserApi } from "../api/users-tab"

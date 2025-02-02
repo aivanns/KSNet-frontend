@@ -1,3 +1,5 @@
+'use client'
+
 import { Button, Card, Input, Modal, ModalContent } from "@heroui/react"
 import { X } from "lucide-react"
 import { useState } from "react"
