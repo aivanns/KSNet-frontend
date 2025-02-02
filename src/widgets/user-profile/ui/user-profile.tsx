@@ -27,7 +27,7 @@ const UserProfile = ({userId}: {userId: string}) => {
             count: 10
         },
         filters: {
-            ownerId: userId,
+            ownerId: user?.id,
             tags: selectedTags
         },
         sort: {}
@@ -48,26 +48,11 @@ const UserProfile = ({userId}: {userId: string}) => {
         <div className="flex flex-col gap-6 w-full">
             <Card className="w-full p-4 lg:p-6 text-black">
                 {user?.id === userId ? <UserCard className="m-0"/> : <StaticUserCard user={user!} className="m-0"/>}
-                <div className="flex justify-between items-center gap-2 lg:gap-8 mt-6 lg:mt-8 mx-4 lg:mx-10 border-t pt-4 lg:pt-6">
-                    <div className="flex flex-col items-center">
-                        <span className="text-lg lg:text-2xl font-bold">128</span>
-                        <span className="text-xs lg:text-sm text-neutral-600">публикаций</span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <span className="text-lg lg:text-2xl font-bold">1,240</span>
-                        <span className="text-xs lg:text-sm text-neutral-600">подписчиков</span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <span className="text-lg lg:text-2xl font-bold">425</span>
-                        <span className="text-xs lg:text-sm text-neutral-600">подписок</span>
-                    </div>
-                </div>
             </Card>
 
             <div className="flex justify-between items-center">
-                <Tabs color="primary" variant="underlined">
+                <Tabs color="warning" variant="underlined">
                     <Tab key="posts" title="Публикации" />
-                    <Tab key="saved" title="Сохраненные" />
                 </Tabs>
                 <div className="hidden lg:flex gap-2">
                     <Button 
