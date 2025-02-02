@@ -13,5 +13,5 @@ services:
       - ./certs:/app/certs
     environment:
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-      - NEXT_PUBLIC_ADMIN_API_URL=${https://147.45.109.115:3001/api}
+      - NEXT_PUBLIC_ADMIN_API_URL=${NEXT_PUBLIC_ADMIN_API_URL}
       - PORT=443
