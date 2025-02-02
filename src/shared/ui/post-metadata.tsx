@@ -19,7 +19,7 @@ const PostMetadata = ({ url, tags }: PostMetadataProps) => {
                 <Link 
                     href={url} 
                     target="_blank"
-                    className="flex items-center gap-1 text-md text-blue-600 hover:text-primary transition-colors w-fit"
+                    className="flex items-center gap-1 text-md text-safetyOrange hover:text-primary transition-colors w-fit"
                 >
                     <ExternalLink size={14} />
                     <span className="truncate max-w-[300px]">{url}</span>

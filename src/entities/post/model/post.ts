@@ -10,6 +10,7 @@ export interface PostComponentProps {
     tags?: Tag[]
     url?: string
     isFull?: boolean
+    isVerified?: boolean,
     isLiked?: boolean
     likes?: number
     content?: string
@@ -21,6 +22,7 @@ export interface Post {
     url: string
     ownerId: string
     isVerified: boolean
+    tops?: Top[]
     description: string
     content: string
     createdAt: string
@@ -31,6 +33,12 @@ export interface Post {
     likes: Like[]
     likesCount: number
   }
+
+export interface Top {
+    id: string
+    place: number
+    postId: string
+}
 
 export interface PostPayload {
     title: string
@@ -72,6 +80,7 @@ export interface PostFilters extends Filters {
     ownerId?: string
     query?: string
     tags?: string[]
+    isTop?: boolean
 }
 
 export interface PostSort {

@@ -6,12 +6,27 @@ import { DynamicFormFields, type FormField } from '@/shared/ui/dynamic-form'
 import Link from 'next/link'
 import { registerSchema, type RegisterFormData } from '../model/auth'
 import { BackHeader } from '@/shared/ui/back-header'
+import useGroupApi from '@/features/group/api/group'
+import { Group } from '@/features/group/model/group'
 
 export function RegisterForm() {
   const { t } = useTranslation()
   const { mutate: registerUser, isPending } = useRegister()
+  const { data: groupsData } = useGroupApi.useGetGroups()
 
   const fields: FormField[] = [
+    {
+      name: 'firstName',
+      type: 'text',
+      label: t('auth.firstName'),
+      required: true,
+    },
+    {
+      name: 'lastName',
+      type: 'text',
+      label: t('auth.lastName'),
+      required: true,
+    },
     {
       name: 'email',
       type: 'email',
@@ -26,6 +41,16 @@ export function RegisterForm() {
       required: true,
       autoComplete: 'new-password',
       endContent: true
+    },
+    {
+      name: 'groupId',
+      type: 'select',
+      label: t('auth.group'),
+      required: true,
+      options: groupsData?.data.map((group: Group) => ({
+        value: group.id,
+        label: group.name
+      })) || []
     }
   ]
 
@@ -60,7 +85,7 @@ export function RegisterForm() {
         {t('auth.haveAccount')}{' '}
         <Link 
           href="/login" 
-          className="text-primary hover:underline font-medium"
+          className="text-safetyOrange hover:underline font-medium"
         >
           {t('auth.signIn')}
         </Link>

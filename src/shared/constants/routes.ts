@@ -2,7 +2,7 @@ export const routes = {
     home: "/",
     login: "/login",
     register: "/register",
-    search: "/search",
-    notifications: "/notifications",
-    profile: "/profile"
+    profile: "/profile",
+    admin: "/admin",
+    top: "/top"
 }

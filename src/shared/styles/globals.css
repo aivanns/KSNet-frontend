@@ -24,10 +24,9 @@
   --neutral-900: #171717;
   
   /* Мягкие акценты */
-  --accent-rose: #fce7f3;
-  --accent-blue: #e0f2fe;
-  --accent-green: #dcfce7;
-  --accent-yellow: #fef9c3;
+  --light-orange: #fdddc0;
+  --fawn: #fabb80;
+  --safety-orange: #f57600;
 }
 
 @media (prefers-color-scheme: dark) {

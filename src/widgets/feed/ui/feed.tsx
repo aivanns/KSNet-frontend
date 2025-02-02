@@ -10,16 +10,21 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import ErrorCard from "@/shared/ui/error-card";
 import EmptyCard from "@/shared/ui/empty-card";
-import { useUserStore } from "@/entities/user/model/store";
 import { Plus } from "lucide-react";
 import CreatePostForm from "@/features/create-post/ui/create-post-form";
+import { SearchInput } from "@/shared/ui/search-input";
+import { useSession } from "@/entities/session/model/use-session";
 
 const Feed = () => {
     const { filters, sort, searchQuery, selectedTags } = usePostStore()
     const { ref, inView } = useInView()
-    const { user } = useUserStore()
+    const { isAuthenticated, user } = useSession()
     const [isCreatePostOpen, setIsCreatePostOpen] = useState(false)
     
+    const handleSearch = (value: string) => {
+        usePostStore.getState().setSearchQuery(value)
+    }
+
     const { data, error, isLoading, fetchNextPage, hasNextPage } = usePost.useGetInfinitePosts({
         pagination: {
             count: 10
@@ -36,19 +41,23 @@ const Feed = () => {
         if (inView && hasNextPage) {
             fetchNextPage()
         }
-    }, [inView, hasNextPage])
+    }, [inView, hasNextPage, fetchNextPage])
 
     if (error) return <ErrorCard message="Ошибка при загрузке постов" />
-    if (!isLoading && (!data?.pages[0]?.data || data.pages[0].data.length === 0)) {
-        return <EmptyCard message="Посты не найдены" />
-    }
-
+    
     return (
         <>
-            <div className="fixed bottom-6 right-6 lg:static lg:mb-6 z-50">
+            <div className="mb-6 w-full max-w-[700px] mx-auto flex">
+                <SearchInput 
+                    onSearch={handleSearch}
+                    placeholder="Поиск постов..."
+                />
+            </div>
+
+            {isAuthenticated && (
                 <Button 
                     variant="light"
-                    className="bg-white shadow-md hover:bg-neutral-100 lg:w-auto rounded-xl"
+                    className="fixed bottom-6 right-6 lg:static lg:mb-6 bg-white shadow-md hover:bg-neutral-100 lg:w-auto rounded-xl whitespace-nowrap z-50"
                     onPress={() => setIsCreatePostOpen(true)}
                 >
                     <Plus className="block lg:hidden" size={24} />
@@ -57,7 +66,35 @@ const Feed = () => {
                         Создать пост
                     </span>
                 </Button>
-            </div>
+            )}
+
+            {!isLoading && (!data?.pages[0]?.data || data.pages[0].data.length === 0) ? (
+                <EmptyCard message="Посты не найдены" />
+            ) : (
+                <div className="flex flex-col items-center justify-center gap-10">
+                    {data?.pages.map((page) =>
+                        page.data.map((post: PostType) => (
+                            <Post 
+                                id={post.id}
+                                key={post.id}
+                                title={post.title}
+                                author={post.owner} 
+                                date={formatPostDate(post.createdAt)} 
+                                tags={post.postTags.map((tag) => tag.tag)} 
+                                url={post.url} 
+                                image={post.postMedias[0]?.media.url} 
+                                text={post.description} 
+                                likes={post.likesCount}
+                                isLiked={post.likes.some((like) => like.userId === user?.id)}
+                                content={post.content}
+                            />
+                        ))
+                    )}
+                    <div ref={ref} className="w-full flex justify-center py-4">
+                        {isLoading && <Spinner size="lg" />}
+                    </div>
+                </div>
+            )}
 
             <Modal 
                 isOpen={isCreatePostOpen} 
@@ -68,30 +105,6 @@ const Feed = () => {
                     <CreatePostForm onClose={() => setIsCreatePostOpen(false)} />
                 </ModalContent>
             </Modal>
-
-            <div className="flex flex-col items-center justify-center gap-10">
-                {data?.pages.map((page) =>
-                    page.data.map((post: PostType) => (
-                        <Post 
-                            id={post.id}
-                            key={post.id}
-                            title={post.title}
-                            author={post.owner} 
-                            date={formatPostDate(post.createdAt)} 
-                            tags={post.postTags.map((tag) => tag.tag)} 
-                            url={post.url} 
-                            image={post.postMedias[0]?.media.url} 
-                            text={post.description} 
-                            likes={post.likesCount}
-                            isLiked={post.likes.some((like) => like.userId === user?.id)}
-                            content={post.content}
-                        />
-                    ))
-                )}
-                <div ref={ref} className="w-full flex justify-center py-4">
-                    {isLoading && <Spinner size="lg" />}
-                </div>
-            </div>
         </>
     )   
 }

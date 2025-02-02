@@ -1,12 +1,15 @@
 "use client"
 
-import { Avatar, Card, CardHeader, CardBody, CardFooter, Button, Image, Spinner, Modal, ModalContent } from "@heroui/react"
-import { EllipsisVertical, Heart, MessageCircle, FileText, X } from "lucide-react"
+import { Avatar, Card, CardHeader, CardBody, CardFooter, Button, Image, Spinner, Modal, ModalContent, Popover, PopoverTrigger, PopoverContent } from "@heroui/react"
+import { EllipsisVertical, Heart, FileText, X, Trash2 } from "lucide-react"
 import { PostComponentProps } from "../model/post"
 import { usePost } from "../api/post"
 import PostMetadata from "@/shared/ui/post-metadata"
 import { useState, useEffect } from "react"
 import MDEditor from "@uiw/react-md-editor"
+import { toast } from "sonner"
+import { useSession } from "@/entities/session/model/session-context"
+import AddLikesModal from "./add-likes-modal"
 
 const Post = ({
     text,
@@ -26,15 +29,19 @@ const Post = ({
     const [likes, setLikes] = useState(initialLikes)
     const [isLoading, setIsLoading] = useState(initialIsLiked === undefined)
     const [isContentOpen, setIsContentOpen] = useState(false)
+    const [isLikesModalOpen, setIsLikesModalOpen] = useState(false)
+    const { user } = useSession()
     
     const { mutate: likePost, isPending: isLiking } = usePost.useLikePost(id)
     const { mutate: dislikePost, isPending: isDisliking } = usePost.useDislikePost(id)
+    const { mutate: deletePost } = usePost.useDeletePost(id)
+    const { mutate: addFakeLikes } = usePost.useAddFakeLikes(id)
 
     useEffect(() => {
         if (initialIsLiked !== undefined && isLoading) {
             setIsLoading(false)
         }
-    }, [initialIsLiked])
+    }, [initialIsLiked, isLoading])
 
     const handleLike = () => {
         if (isLiking || isDisliking || isLiked === undefined) return
@@ -49,6 +56,29 @@ const Post = ({
         }
     }
 
+    const handleDelete = () => {
+        deletePost(undefined, {
+            onSuccess: () => {
+                toast.success("Пост успешно удален")
+            },
+            onError: () => {
+                toast.error("Ошибка при удалении поста")
+            }
+        })
+    }
+
+    const handleAddLikes = (count: number) => {
+        addFakeLikes(count, {
+            onSuccess: () => {
+                toast.success("Лайки успешно добавлены")
+                setIsLikesModalOpen(false)
+            },
+            onError: () => {
+                toast.error("Ошибка при добавлении лайков")
+            }
+        })
+    }
+
     if (isLoading) {
         return (
             <Card className={`${isFull ? "w-full" : "w-full lg:w-2/3"} p-2 min-h-[200px] flex items-center justify-center`}>
@@ -57,23 +87,50 @@ const Post = ({
         )
     }
 
+    const isOwner = user?.id === author?.id
+
     return (
         <>
             <Card className={`${isFull ? "w-full" : "w-full lg:w-2/3"} p-2`}>
                 <CardHeader className="justify-between">
                     <div className="flex items-center gap-2">
                         <Avatar 
-                            src={author?.userMedias[0]?.media.url || "https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png"} 
-                            className="w-8 h-8 lg:w-10 lg:h-10"
+                            src={author?.userMedias[0]?.media.url || "https://www.ks54.ru/wp-content/uploads/2020/02/ks54-300x300.png"} 
+                            className="w-8 h-8 lg:w-10 lg:h-10 bg-neutral-200"
                         />
                         <div className="flex flex-col items-start">
                             <p className="text-xs lg:text-sm font-medium text-black">{author?.firstName} {author?.lastName}</p>
                             <p className="text-xs lg:text-tiny font-medium text-gray-500">{date}</p>
                         </div>
                     </div>
-                    <Button variant="light" isIconOnly size="sm">
-                        <EllipsisVertical className="w-4 h-4 lg:w-5 lg:h-5" />
-                    </Button>
+                    {isOwner && (
+                        <Popover placement="bottom-end">
+                            <PopoverTrigger>
+                                <Button variant="light" isIconOnly size="sm">
+                                    <EllipsisVertical className="w-4 h-4 lg:w-5 lg:h-5" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <Button 
+                                    color="danger" 
+                                    variant="light" 
+                                    onPress={handleDelete}
+                                    className="w-full mb-2"
+                                    startContent={<Trash2 size={16} />}
+                                >
+                                    Удалить
+                                </Button>
+                                <Button 
+                                    variant="light" 
+                                    onPress={() => setIsLikesModalOpen(true)}
+                                    className="w-full text-safetyOrange"
+                                    startContent={<Heart size={16} />}
+                                >
+                                    Указать лайки
+                                </Button>
+                            </PopoverContent>
+                        </Popover>
+                    )}
                 </CardHeader>
                 <CardBody className="flex flex-col gap-6">
                     <p className="text-xl font-medium text-black">{title}</p>
@@ -111,9 +168,6 @@ const Post = ({
                                         {likes}
                                     </p>
                                 </div>
-                                <Button variant="light" isIconOnly size="sm">
-                                    <MessageCircle />
-                                </Button>
                             </div>
                             {content && (
                                 <Button 
@@ -150,11 +204,17 @@ const Post = ({
                             </button>
                         </div>
                         <div className="prose max-w-none dark:prose-invert">
-                            <MDEditor.Markdown source={content} style={{ backgroundColor: 'transparent' }} />
+                            <MDEditor.Markdown source={content} style={{borderRadius: '10px', padding: '15px'}} />
                         </div>
                     </Card>
                 </ModalContent>
             </Modal>
+
+            <AddLikesModal 
+                isOpen={isLikesModalOpen}
+                onClose={() => setIsLikesModalOpen(false)}
+                onSubmit={handleAddLikes}
+            />
         </>
     )
 }

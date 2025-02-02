@@ -9,24 +9,25 @@ import { usePost } from "@/entities/post/api/post"
 import { formatPostDate } from "@/shared/lib/utils"
 import { useInView } from "react-intersection-observer"
 import ErrorCard from "@/shared/ui/error-card"
-import { useSession } from "@/entities/session/model/session-context"
 import { PostTag, Post as PostType } from "@/entities/post/model/post"
 import { usePostStore } from "@/entities/post/model/store"
 import EmptyCard from "@/shared/ui/empty-card"
+import StaticUserCard from "@/entities/user/ui/static-user-card"
+import useUserApi from "@/entities/user/api/user"
 
-const UserProfile = () => {
+const UserProfile = ({userId}: {userId: string}) => {
     const [view, setView] = useState<"grid" | "list">("list")
     const { ref, inView } = useInView()
-    const { user } = useSession()
     const { selectedTags } = usePostStore()
 
+    const { data: user, error: userError } = useUserApi.useGetUser(userId)
     const { data, error, isLoading, fetchNextPage, hasNextPage } = usePost.useGetInfinitePosts({
         pagination: {
             page: 1,
             count: 10
         },
         filters: {
-            ownerId: user?.id,
+            ownerId: userId,
             tags: selectedTags
         },
         sort: {}
@@ -36,14 +37,17 @@ const UserProfile = () => {
         if (inView && hasNextPage) {
             fetchNextPage()
         }
-    }, [inView, hasNextPage])
+    }, [inView, hasNextPage, fetchNextPage])
 
     if (error) return <ErrorCard message="Ошибка при загрузке постов" />
+    if (userError) return <ErrorCard message="Ошибка при загрузке пользователя" />
+
+    if (!user) return null
     
     return (
         <div className="flex flex-col gap-6 w-full">
             <Card className="w-full p-4 lg:p-6 text-black">
-                <UserCard className="m-0"/>
+                {user?.id === userId ? <UserCard className="m-0"/> : <StaticUserCard user={user!} className="m-0"/>}
                 <div className="flex justify-between items-center gap-2 lg:gap-8 mt-6 lg:mt-8 mx-4 lg:mx-10 border-t pt-4 lg:pt-6">
                     <div className="flex flex-col items-center">
                         <span className="text-lg lg:text-2xl font-bold">128</span>
@@ -93,7 +97,7 @@ const UserProfile = () => {
                                 key={post.id}
                                 id={post.id}
                                 title={post.title}
-                                isFull={view === "list"}
+                                isFull
                                 author={post.owner}
                                 date={formatPostDate(post.createdAt)}
                                 tags={post.postTags.map((tag: PostTag) => tag.tag)}

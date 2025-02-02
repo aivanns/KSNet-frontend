@@ -15,8 +15,7 @@ export const LoginButton = ({ wide = false, className }: LoginButtonProps) => {
     return (
       <Link href={routes.login}>
         <Button
-          color="default"
-          className={className}
+          className={className + ' bg-fawn text-white'}
         >
           <LogIn className="w-4 h-4 mr-2" />
           Войти
@@ -30,7 +29,7 @@ export const LoginButton = ({ wide = false, className }: LoginButtonProps) => {
       <Button
         color="default"
         isIconOnly
-        className={className}
+        className={className + ' bg-fawn text-white'}
       >
         <LogIn className="w-4 h-4" />
       </Button>

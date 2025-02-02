@@ -8,6 +8,10 @@ export const userApi = {
     const response = await api.get<User>('/users/me')
     return response.data
   },
+  getUser: async (userId: string) => {
+    const response = await api.get<User>(`/users/${userId}`)
+    return response.data
+  },
   uploadAvatar: async (file: File) => {
     const formData = new FormData()
     formData.append('file', file)
@@ -33,6 +37,12 @@ const useUserApi = {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['user'] })
       }
+    })
+  },
+  useGetUser: (userId: string) => {
+    return useQuery({
+      queryKey: ['user', userId],
+      queryFn: () => userApi.getUser(userId)
     })
   }
 }

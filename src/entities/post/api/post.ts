@@ -1,11 +1,10 @@
-import { api } from "@/shared/api/api"
+import { adminApi, api } from "@/shared/api/api"
 import { queryClient } from "@/shared/lib/react-query"
-import { QueryPayload } from "@/shared/types/query"
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query"
-import { PostPayload } from "../model/post"
+import { PostPayload, PostQueryPayload } from "../model/post"
 
 export const postApi = {
-    getPosts: async (query: QueryPayload) => {
+    getPosts: async (query: PostQueryPayload) => {
         const response = await api.post('/post/search', query)
         return response.data
     },
@@ -20,11 +19,19 @@ export const postApi = {
     createPost: async (post: PostPayload) => {
         const response = await api.post('/post', post)
         return response.data
+    },
+    deletePost: async (postId: string) => {
+        const response = await api.delete(`/post/${postId}`)
+        return response.data
+    },
+    addFakeLikes: async (postId: string, fakeLikes: number) => {
+        const response = await adminApi.post(`/post/${postId}/update-fake-likes`, { fakeLikes })
+        return response.data
     }
 }
 
 export const usePost = {
-    useGetInfinitePosts: (query: QueryPayload) => {
+    useGetInfinitePosts: (query: PostQueryPayload) => {
         return useInfiniteQuery({
             queryKey: ['posts', query],
             queryFn: ({ pageParam = 1 }) => postApi.getPosts({ 
@@ -61,6 +68,22 @@ export const usePost = {
     useCreatePost: () => {
         return useMutation({
             mutationFn: (post: PostPayload) => postApi.createPost(post),
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['posts'] })
+            }
+        })
+    },
+    useDeletePost: (postId: string) => {
+        return useMutation({
+            mutationFn: () => postApi.deletePost(postId),
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['posts'] })
+            }
+        })
+    },
+    useAddFakeLikes: (postId: string) => {
+        return useMutation({
+            mutationFn: (fakeLikes: number) => postApi.addFakeLikes(postId, fakeLikes),
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ['posts'] })
             }
