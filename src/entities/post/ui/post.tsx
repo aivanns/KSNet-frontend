@@ -25,12 +25,12 @@ const Post = ({
     likes: initialLikes = 0,
     content
 }: PostComponentProps) => {
+    const { user, isAuthenticated } = useSession()
     const [isLiked, setIsLiked] = useState<boolean | undefined>(initialIsLiked)
     const [likes, setLikes] = useState(initialLikes)
     const [isLoading, setIsLoading] = useState(initialIsLiked === undefined)
     const [isContentOpen, setIsContentOpen] = useState(false)
     const [isLikesModalOpen, setIsLikesModalOpen] = useState(false)
-    const { user } = useSession()
     
     const { mutate: likePost, isPending: isLiking } = usePost.useLikePost(id)
     const { mutate: dislikePost, isPending: isDisliking } = usePost.useDislikePost(id)
@@ -43,16 +43,30 @@ const Post = ({
         }
     }, [initialIsLiked, isLoading])
 
-    const handleLike = () => {
-        if (isLiking || isDisliking || isLiked === undefined) return
-        if (isLiked) {
-            dislikePost()
-            setIsLiked(false)
-            setLikes(prev => prev - 1)
-        } else {
-            likePost()
-            setIsLiked(true)
-            setLikes(prev => prev + 1)
+    const handleLike = async () => {
+        if (!isAuthenticated || isLiking || isDisliking || isLiked === undefined) return
+        try {
+            if (isLiked) {
+                await dislikePost(undefined, {
+                    onError() {
+                        setIsLiked(true)
+                        setLikes((prev) => prev + 1)
+                    }
+                })
+                setIsLiked(false)
+                setLikes((prev) => prev - 1)
+            } else {
+                await likePost(undefined, {
+                    onError() {
+                        setIsLiked(false)
+                        setLikes((prev) => prev - 1)
+                    }
+                })
+                setIsLiked(true)
+                setLikes((prev) => prev + 1)
+            }
+        } catch (error) {
+            console.error("Ошибка при обновлении лайка:", error)
         }
     }
 
@@ -156,7 +170,8 @@ const Post = ({
                                         variant="light" 
                                         isIconOnly 
                                         size="sm" 
-                                        onPress={handleLike}
+                                        onPress={isAuthenticated ? handleLike : undefined}
+                                        disabled={!isAuthenticated}
                                         isLoading={isLiking || isDisliking}
                                     >
                                         <Heart 
