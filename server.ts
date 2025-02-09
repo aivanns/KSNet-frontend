@@ -17,7 +17,8 @@ app.prepare().then(() => {
     .createServer(httpsOptions, (req, res) => {
       handle(req, res);
     })
-    .listen(443, () => {
-      console.log("> Ready on https://localhost:443");
+    .listen(80, () => {
+      console.log("> Ready on http://localhost:80");
     });
 });
+
